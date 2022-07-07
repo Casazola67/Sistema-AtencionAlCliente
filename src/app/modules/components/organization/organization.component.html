@@ -1,0 +1,77 @@
+<div class="container mt-5">
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2">
+        <div class="card">
+          <div class="card-body">
+            <h1 class="titulo">Organizaciones</h1> 
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-4">
+  
+  
+  
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="titulo mb-3">Crear organizacion</h5>
+            <form [formGroup]="form" (ngSubmit)="createOrganization()">
+              <div class="input-group input-group-lg mb-3">
+                <span class="input-group-text">
+                  <i class="fas fa-user-circle"></i>
+                </span>
+                <input type="text" formControlName="name" class="form-control" placeholder="Nombre">
+              </div>
+              <div class="input-group input-group-lg mb-3">
+                <span class="input-group-text">
+                  <i class="fas fa-email-circle"></i>
+                </span>
+                <input type="text" formControlName="adress" class="form-control" placeholder="Direccion">
+              </div>
+              <div class="input-group input-group-lg mb-3">
+                <span class="input-group-text">
+                  <i class="fas fa-email-circle"></i>
+                </span>
+                <input type="text" formControlName="city" class="form-control" placeholder="Ciudad">
+              </div>
+              <div class="input-group input-group-lg mb-3">
+                <span class="input-group-text">
+                  <i class="fas fa-email-circle"></i>
+                </span>
+                <input type="text" formControlName="phone" class="form-control" placeholder="Telefono">
+              </div>
+              <div class="d-grid gap-2">
+                <button class="btn btn success btn-lg" type="submit">
+                  <i class="fas fa-database">Aceptar</i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+  
+  
+  
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="titulo">Listar Organizaciones</div>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+  
+  
+  
+  
+    </div>
+  </div>
