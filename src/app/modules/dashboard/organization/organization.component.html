@@ -10,13 +10,11 @@
     </div>
     <div class="row mt-4">
   
-  
-  
       <div class="col-lg-6">
         <div class="card">
           <div class="card-body">
             <h5 class="titulo mb-3">Crear organizacion</h5>
-            <form [formGroup]="form" (ngSubmit)="createOrganization()">
+            <form [formGroup]="form" (ngSubmit)="saveOrganization()">
               <div class="input-group input-group-lg mb-3">
                 <span class="input-group-text">
                   <i class="fas fa-user-circle"></i>
@@ -47,22 +45,28 @@
                 </button>
               </div>
             </form>
+  
           </div>
         </div>
       </div>
   
-  
-  
       <div class="col-lg-6">
         <div class="card">
           <div class="card-body">
-            <div class="titulo">Listar Organizaciones</div>
+            <h1 class="titulo">Listar Organizaciones</h1>
             <table class="table">
               <tbody>
-                <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                <tr *ngFor="let organization of organizationList">
+                  <td>{{organization.id}}</td>
+                  <td>{{organization.name}}</td>
+                  <td> 
+                    <button class="btn btn-success btn-lg"(click)="deleteOrganization(organization.id)">
+                      <i>Borrar</i>
+                    </button>  
+                    <button class="btn btn-success btn-lg"(click)="saveAndEditOrganization(organization)">
+                      <i>listar</i>
+                    </button>  
+                  </td> 
                 </tr>
               </tbody>
             </table>
@@ -70,8 +74,29 @@
         </div>
       </div>
   
-  
-  
-  
     </div>
   </div>
+
+
+
+  <ng-template #editOrganization let-modal>
+
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+            </div>
+            <div class="modal-body">
+              
+              <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal()">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+
+
+  </ng-template>
