@@ -1,16 +1,16 @@
 export class Organization {
 
-    id: string;
-    name: string;
-    adress: string;
-    phone: string;
-    city: string;
-    services: string;
-    tags: string[];
-    admin: {idUser: string, nameUser: string};
-    partners: { id: string, name: string}[];
-    links: string[];
-    schedule: { day: string, startTime: string, endTime: string, interval: number}[]
+    id?: string;
+    name?: string;
+    adress?: string;
+    phone?: string;
+    city?: string;
+    services?: string;
+    tags?: string[];
+    admin?: {idUser: string, nameUser: string};
+    partners?: { id: string, name: string}[];
+    links?: string[];
+    schedule?: { day: string, startTime: string, endTime: string, interval: number}[]
 
     constructor() {
         this.id = '';
