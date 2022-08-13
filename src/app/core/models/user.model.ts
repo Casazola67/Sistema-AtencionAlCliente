@@ -1,23 +1,24 @@
 export class User {
 
-    id: string;
-    name: string;
-    displayName: string;
-    email: string;
-    phone: string;
-    google: string;
-    creation: number; 
-    photo: string;
+    uid?: string;
+    email?: string;
+    name?: string;
+    displayName?: string;
+    
+    phone?: string;
+    emailVerified?: string;
+    creation?: number; 
+    photoURL?: string;
 
     constructor(){
-        this.id = '';
+        this.uid = '';
+        this.email = '';
         this.name = '';
         this.displayName = '';
-        this.email = '';
         this.phone = ''; 
-        this.google = '';
+        this.emailVerified = '';
         this.creation = 0; 
-        this.photo = '';   
+        this.photoURL = ''; 
     }
 }
 

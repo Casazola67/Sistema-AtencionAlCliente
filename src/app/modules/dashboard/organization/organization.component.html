@@ -1,56 +1,85 @@
 <div class="container mt-5">
+    
     <div class="row">
       <div class="col-lg-8 offset-lg-2">
         <div class="card">
           <div class="card-body">
-            <h1 class="titulo">Organizaciones</h1> 
+            <h1 class="titulo">Organizaciones</h1>
+            <!--
+            <button class="btn btn-success btn-lg" (click)="openModal(createOrganization)">
+              <i class="fas fa-database">+ Añadir Org.</i>
+            </button> 
+            -->
           </div>
         </div>
       </div>
     </div>
+
     <div class="row mt-4">
   
-      <div class="col-lg-6">
+      <div class="col-lg-8 offset-lg-2">
         <div class="card">
           <div class="card-body">
             <h5 class="titulo mb-3">Crear organizacion</h5>
-            <form [formGroup]="form" (ngSubmit)="saveOrganization()">
-              <div class="input-group input-group-lg mb-3">
-                <span class="input-group-text">
-                  <i class="fas fa-user-circle"></i>
-                </span>
-                <input type="text" formControlName="name" class="form-control" placeholder="Nombre">
+            <div class="input-group input-group-lg mb-3">
+              <input type="text" class="form-control" [(ngModel)]="organization.name" placeholder="Nombre">
+            </div>
+            <div class="input-group input-group-lg mb-3">
+              <input type="text" class="form-control" [(ngModel)]="organization.adress" placeholder="Direccion">
+              <span *ngIf="organization.adress == 'hola'"
+                class="error">My error message
+         </span>
+            </div>
+            <div class="input-group input-group-lg mb-3">
+              <input type="text" class="form-control" [(ngModel)]="organization.city" placeholder="Ciudad">
+            </div>
+            <div class="input-group input-group-lg mb-3">
+              <input type="text" class="form-control" [(ngModel)]="organization.phone" placeholder="Telefono">
+            </div>
+
+              <div *ngFor="let day of weekdays; index as i">
+                <div>{{weekdays[i]}}</div>
+                <mat-slide-toggle [(ngModel)]="businessHours[i].open_half" (click)="disable(i)">Abierto?</mat-slide-toggle>
+                <mat-slide-toggle [(ngModel)]="businessHours[i].open_full" [disabled]="!businessHours[i].open_half">Turno Continuo?</mat-slide-toggle>
+                <div *ngIf="businessHours[i].open_half">
+                  <mat-form-field>
+                    <mat-label>From</mat-label>
+                    <mat-select [(ngModel)]="businessHours[i].from_half">
+                      <mat-option *ngFor="let hour of hours" [value]="hour" [disabled]="!businessHours[i].open_half" (click)="change(i)">{{hour}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <mat-form-field>
+                    <mat-label>To</mat-label>
+                    <mat-select [(ngModel)]="businessHours[i].to_half">
+                      <mat-option *ngFor="let hour of hours" [value]="hour" [disabled]="!businessHours[i].open_half" (click)="change(i)">{{hour}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div *ngIf="!businessHours[i].open_full">
+                    <mat-form-field>
+                      <mat-label>From</mat-label>
+                      <mat-select [(ngModel)]="businessHours[i].from_full">
+                        <mat-option *ngFor="let hour of hours" [value]="hour" [disabled]="businessHours[i].open_full" (click)="change(i)">{{hour}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                      <mat-label>To</mat-label>
+                      <mat-select [(ngModel)]="businessHours[i].to_full">
+                        <mat-option *ngFor="let hour of hours" [value]="hour" [disabled]="businessHours[i].open_full" (click)="change(i)">{{hour}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
               </div>
-              <div class="input-group input-group-lg mb-3">
-                <span class="input-group-text">
-                  <i class="fas fa-email-circle"></i>
-                </span>
-                <input type="text" formControlName="adress" class="form-control" placeholder="Direccion">
-              </div>
-              <div class="input-group input-group-lg mb-3">
-                <span class="input-group-text">
-                  <i class="fas fa-email-circle"></i>
-                </span>
-                <input type="text" formControlName="city" class="form-control" placeholder="Ciudad">
-              </div>
-              <div class="input-group input-group-lg mb-3">
-                <span class="input-group-text">
-                  <i class="fas fa-email-circle"></i>
-                </span>
-                <input type="text" formControlName="phone" class="form-control" placeholder="Telefono">
-              </div>
-              <div class="d-grid gap-2">
-                <button class="btn btn success btn-lg" type="submit">
-                  <i class="fas fa-database">Aceptar</i>
-                </button>
-              </div>
-            </form>
-  
+
+            <div>
+              <button type="button" class="btn btn-primary" (click)="createOrganization()" >Save changes</button>
+            </div>
+            
           </div>
         </div>
       </div>
   
-      <div class="col-lg-6">
+      <div class="col-lg-8 offset-lg-2">
         <div class="card">
           <div class="card-body">
             <h1 class="titulo">Listar Organizaciones</h1>
@@ -78,25 +107,35 @@
   </div>
 
 
+  <!-- VENTANAS MODALES -->
+  <!-- 
+  <ng-template #createOrganization let-modal>
 
-  <ng-template #editOrganization let-modal>
-
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Modal title</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal()"></button>
+          <div class="modal-header">
+            <h5 class="modal-title">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group input-group-lg mb-3">
+              <input type="text" class="form-control" [(ngModel)]="organization.name" placeholder="Nombre">
             </div>
-            <div class="modal-body">
-              
-              <p>Modal body text goes here.</p>
+            <div class="input-group input-group-lg mb-3">
+              <input type="text" class="form-control" [(ngModel)]="organization.adress" placeholder="Direccion">
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal()">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+            <div class="input-group input-group-lg mb-3">
+              <input type="text" class="form-control" [(ngModel)]="organization.city" placeholder="Ciudad">
+            </div>
+            <div class="input-group input-group-lg mb-3">
+              <input type="text" class="form-control" [(ngModel)]="organization.phone" placeholder="Telefono">
             </div>
           </div>
-        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="createOrganization2()">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
+          </div>
 
 
   </ng-template>
+  -->
