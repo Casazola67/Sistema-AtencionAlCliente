@@ -16,14 +16,14 @@ import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { AuthService } from './core/services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
 @NgModule({
   declarations: [
     AppComponent,
+
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     AngularFireStorageModule,
     AngularFireAuthModule,
     AppRoutingModule,

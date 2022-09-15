@@ -13,17 +13,8 @@ export class OrganizationService {
 
   constructor( private firebase: AngularFirestore ) { }
 
-  addOrganizationEdit( organization: Organization){
-    //La funcion next emite todos los valores obtenidos de "organization"
-    this.organizationEdit.next(organization);
-  }
-
   createOrganization( organization: Organization ): Promise<any>{
     return this.firebase.collection('organization').add(organization);
-  }
-
-  editOrganization(id: string, organization: any): Promise<any>{
-    return this.firebase.collection('organization').doc(id).update(organization);
   }
 
   deleteOrganization(organizationID: string): Promise<any> {
@@ -34,9 +25,22 @@ export class OrganizationService {
     return this.firebase.collection('organization').snapshotChanges();
   }
 
+  getOrganization(id: any): Observable<any>{
+    return this.firebase.collection('organization').doc(id).valueChanges();
+  }
+  /*
+  editOrganization(id: string, organization: any): Promise<any>{
+    return this.firebase.collection('organization').doc(id).update(organization);
+  }
+
+  addOrganizationEdit( organization: Organization){
+    this.organizationEdit.next(organization);
+  }
+
   getOrganization(): Observable<Organization>{
     return this.organizationEdit.asObservable();
   }
+  */
 
 
 }

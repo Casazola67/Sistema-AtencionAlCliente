@@ -15,18 +15,10 @@
               <label for="password">Contraseña</label>
             </div>
             <div class="form-floating mb-3">
-              <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="name" #userName required />
+              <input type="text" class="form-control" placeholder="Nombre" [(ngModel)]="displayName" #userName required />
               <label for="name">Nombre</label>
             </div>
 
-          <!--
-            <div class="form-check mb-3">
-              <input class="form-check-input" type="checkbox" value="" id="rememberPasswordCheck">
-              <label class="form-check-label" for="rememberPasswordCheck">
-                Remember password
-              </label>
-            </div>
-          -->
             <div class="d-grid">
               <input type="button" class="btn btn-primary btn-login text-uppercase fw-bold" value="Registrarse" (click)="register()"/>
             </div>

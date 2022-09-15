@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore  } from '@angular/fire/compat/firestore';
+import { Observable, Subject } from 'rxjs';
 import { User } from '../models/user.model';
 
 @Injectable({
@@ -11,5 +12,13 @@ export class UserService {
 
   addUser(user: User){
     return this.firebase.collection('users').doc(user.uid).set(user);
+  }
+
+  getAllUsers(): Observable<any>{
+    return this.firebase.collection('users').snapshotChanges();
+  }
+
+  getUser(id:any): Observable<any>{
+    return this.firebase.collection('users').doc(id).valueChanges();
   }
 }

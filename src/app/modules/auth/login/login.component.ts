@@ -12,21 +12,32 @@ export class LoginComponent implements OnInit {
 
   email: string = "";
   password: string = ""; 
+  userSigned = new Subscription();
 
   constructor( public authService : AuthService, public router: Router, ) {}
 
   ngOnInit(){
-    if(this.authService.LoggedIn){
-      this.goToDashboard();
-    }
+    this.userSigned = this.authService.userSigned.subscribe(() => 
+    this.goToDashboard()
+    );
   }
-
-  login(){
-    this.authService.SignIn(this.email, this.password);
+  ngOnDestroy(){
+    this.userSigned.unsubscribe();
   }
 
   private goToDashboard(){
     this.router.navigate(["/dashboard"]);
   }
 
+
+  login(){
+    const email = this.email;
+    const password = this.password;
+    this.authService.SignIn(email, password).pipe()
+    .subscribe(() => {
+      this.router.navigate(['/dashboard']);
+    });
+  }
+
+  
 }

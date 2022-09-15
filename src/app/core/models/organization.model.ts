@@ -7,11 +7,8 @@ export class Organization {
     adress?: string;
     phone?: string;
     city?: string;
-    services?: string;
-    //tags?: string[];
-    //admin?: {idUser: string, nameUser: string};
-    //partners?: { id: string, name: string}[];
-    //links?: string[];
+    admin?: string;
+    partners?: string[];
     schedule?: Schedule[];
 
     constructor() {
@@ -20,11 +17,8 @@ export class Organization {
         this.adress = '';
         this.phone = ''; 
         this.city = '';
-        this.services = '';
-        //this.tags = [];
-        //this.admin = {idUser: '', nameUser: ''};
-        //this.partners = [];
-        //this.links = [];
+        this.admin = '';
+        this.partners = [];
         this.schedule = [];
 
     }
