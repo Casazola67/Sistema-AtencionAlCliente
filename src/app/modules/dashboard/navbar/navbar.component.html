@@ -1,6 +1,7 @@
-<mat-toolbar>
+<mat-toolbar color="primary">
 
-  <span>SACAS</span>
+  <button mat-button (click)="goTo('dashboard')"> SACAS </button>
+
   <span style="flex: 1 1 auto;"></span>
 
   <span  *ngIf="user as user">
@@ -11,7 +12,7 @@
   </button>
   <mat-menu #menu="matMenu">
 
-    <button mat-menu-item [matMenuTriggerFor]="SuperAdmin">
+    <button mat-menu-item [matMenuTriggerFor]="SuperAdmin" *ngIf="currentUser.uid == 'M2224w0b8eMKwPhRgoKd06tE4tH3'">
       <mat-icon>lock</mat-icon>
       <span>SuperAdmin</span>
     </button>
@@ -29,18 +30,23 @@
       </button>
     </mat-menu>
 
-    <hr>
+    <hr *ngIf="currentUser.uid == 'M2224w0b8eMKwPhRgoKd06tE4tH3'">
 
-    <button mat-menu-item (click)="goTo('admin-org')">
+    <button mat-menu-item (click)="goTo('admin-org')" *ngIf="currentUser.uid == 'M2224w0b8eMKwPhRgoKd06tE4tH3' || organizationList.length > 0">
       <mat-icon>business_center</mat-icon>
       <span>Administrator</span>
     </button>
     
-    <hr>
+    <hr *ngIf="currentUser.uid == 'M2224w0b8eMKwPhRgoKd06tE4tH3' || organizationList.length > 0">
 
-    <button mat-menu-item (click)="LogOut()">
+    <button mat-menu-item *ngIf="currentUser.uid" (click)="LogOut()">
       <mat-icon>power_settings_new</mat-icon>
       <span>Cerrar Sesión</span>
+    </button>
+
+    <button mat-menu-item *ngIf="!currentUser.uid" (click)="goTo('')">
+      <mat-icon>power_settings_new</mat-icon>
+      <span>Iniciar Sesión</span>
     </button>
 
   </mat-menu>

@@ -4,14 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
 // MODELS
 import { Organization } from 'src/app/core/models/organization.model';
 import { Ticket } from 'src/app/core/models/ticket.model';
 //SERVICES
 import { OrganizationService } from 'src/app/core/services/organization.service';
 import { AuthService, CurrentUser } from 'src/app/core/services/auth.service';
-import { UserService } from 'src/app/core/services/user.service';
 import { TicketService } from 'src/app/core/services/ticket.service';
 //OTHERS
 

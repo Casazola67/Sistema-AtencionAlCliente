@@ -1,6 +1,6 @@
 // ANGULAR & BOOTSTRAP
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 // MODELS
 import { Organization } from 'src/app/core/models/organization.model';
@@ -34,7 +34,7 @@ import * as moment from 'moment';
     ticketsToday: Ticket[] = [];
 
 
-    selected: Date;
+    selected: Date | any;
     minDate: Date;
     maxDate: Date;
 
@@ -46,7 +46,7 @@ import * as moment from 'moment';
       private ticketService: TicketService,
       )
     { 
-      this.selected = new Date();
+      this.selected = '';
       const currentYear = new Date().getFullYear();
       this.minDate = new Date(currentYear - 0, 0, 1);
       this.maxDate = new Date(currentYear + 1, 0, 31);
@@ -115,12 +115,7 @@ import * as moment from 'moment';
     setStep(index: number) {
       this.step = index;
     }
-    nextStep() {
-      this.step++;
-    }
-    prevStep() {
-      this.step--;
-    }
+
     //////////////////////////// MAT DATE INPUT ////////////////////////////////////////////////////////
     onDateChange(event : any) {
       //const aux = moment(event.value).format("YYYY-MM-DD");

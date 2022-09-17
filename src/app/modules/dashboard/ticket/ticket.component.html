@@ -22,70 +22,45 @@
     </div>
     
     <div class="row mt-4" >
-      <div class="col-lg-8 offset-lg-2" *ngIf="userTicket.length == 0; else ValidTicket">
-        <mat-accordion multi >
-          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+      <div class="col-lg-8 offset-lg-2" *ngIf="userTicket.length == 0; else ValidTicket" >
+        <p class="alert alert-primary" *ngIf="!currentUser.uid">Inicia sesión si querés solicitar un ticket de atención</p>
+        <mat-accordion multi>
+          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle [disabled]="!currentUser.uid">
             <mat-expansion-panel-header>
               <mat-panel-title>
-                Fecha
+                Ticket
               </mat-panel-title>
               <mat-panel-description>
-                Selecciona la fecha 
+                Solicitar ticket de atención 
               </mat-panel-description>
             </mat-expansion-panel-header>
+            <h4> Fecha </h4>
             <div>
+              <mat-form-field>
+                <mat-label>DD/MM/YYYY</mat-label>
               <input matInput 
               [matDatepicker]="picker" 
               [min]="minDate" [max]="maxDate" 
               [value]="selected" 
               [(ngModel)]="selected"
-              (dateChange)="onDateChange($event)">
-              <mat-datepicker #picker ></mat-datepicker>
-              <p>{{selected}}</p>
+              (dateChange)="onDateChange($event)" disabled>
+              <mat-datepicker #picker disabled="false"></mat-datepicker>
+              </mat-form-field>
             </div>
+            <p class="alert alert-warning" *ngIf="validDay">Cerrado, seleccione otra fecha</p>
             <button mat-raised-button (click)="picker.open()">Seleccionar Fecha</button>
-            <mat-action-row>
-              <button mat-button color="primary" (click)="nextStep()">Next</button>
-            </mat-action-row>
-          </mat-expansion-panel>
-
-          <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" [disabled]="validDay" hideToggle>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Hora
-              </mat-panel-title>
-              <mat-panel-description>
-                Selecciona la hora 
-              </mat-panel-description>
-            </mat-expansion-panel-header>
+            
+            <hr>
+            <h4> Hora </h4>
             <mat-form-field>
               <mat-label>Seleccione la hora</mat-label>
-              <mat-select [(ngModel)]="ticket.hour">
+              <mat-select [(ngModel)]="ticket.hour" [disabled]="validDay">
                 <mat-option *ngFor="let hour of hours" [value]="hour">{{hour}}</mat-option>
               </mat-select>
             </mat-form-field>
-            <mat-action-row>
-              <button mat-button color="warn" (click)="prevStep()">Previous</button>
-              <button mat-button color="primary" (click)="nextStep()">Next</button>
-            </mat-action-row>
-          </mat-expansion-panel>
-
-          <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" [disabled]="validDay" hideToggle>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Confirmar
-              </mat-panel-title>
-              <mat-panel-description>
-              
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-              <label for="description">Example</label>
-              <textarea id="description">
-              </textarea>
 
             <mat-action-row>
-              <button mat-button color="warn" (click)="prevStep()">Previous</button>
-              <button mat-button color="warn" (click)="createTicket()">Crear Ticket</button>
+              <button mat-button color="primary" (click)="createTicket()" [disabled]="validDay || !ticket.hour">Crear Ticket</button>
             </mat-action-row>
           </mat-expansion-panel>
             
@@ -131,9 +106,17 @@
     <div class="col-lg-8 offset-lg-2">
       <mat-card *ngFor="let ticket of userTicket">
         <mat-card-title>Ticket de Atención Actual</mat-card-title>
+        <mat-card-subtitle>{{ticket.hour}}</mat-card-subtitle>
         <mat-card-content>
-            <p>{{ticket.hour}}</p>
-            <p>{{ticket.status}}</p>
+
+          <mat-chip-list aria-label="Status" *ngIf="ticket.status == 'Pendiente'">
+            <mat-chip color="accent" selected>{{ticket.status}}</mat-chip>
+          </mat-chip-list>
+
+          <mat-chip-list aria-label="Status" *ngIf="ticket.status == 'Activo'">
+            <mat-chip color="primary" selected>{{ticket.status}}</mat-chip>
+          </mat-chip-list>
+
         </mat-card-content>
       </mat-card>
     </div>

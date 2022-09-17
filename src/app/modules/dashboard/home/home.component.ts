@@ -18,9 +18,15 @@ import { OrganizationService } from 'src/app/core/services/organization.service'
 
     currentDay:number= new Date().getDay();
     organizationList: Organization[]= [];
+    filterList: Organization[]= [];
 
     constructor(private _organizationService: OrganizationService, public router: Router,){
 
+    }
+
+    
+    ngOnInit(): void {
+      this.getAllOrganizations();
     }
 
     getAllOrganizations(){
@@ -32,6 +38,7 @@ import { OrganizationService } from 'src/app/core/services/organization.service'
               id: element.payload.doc.id,
               ...element.payload.doc.data()
             });
+            this.filterList = this.organizationList;
           });
           //console.log(this.organizationList);
         })
@@ -41,8 +48,15 @@ import { OrganizationService } from 'src/app/core/services/organization.service'
       this.router.navigate(['/ticket', {id: id}]);
     }
 
-    ngOnInit(): void {
-        this.getAllOrganizations();
+    applyFilter(event: Event) {
+      const filterValue = (event.target as HTMLInputElement).value.toString();
+      console.log(filterValue);
+      if(filterValue != null){
+        this.filterList = this.filterList.filter((obj) => {
+          return obj.name === filterValue;
+        });
+        console.log(this.filterList);
+      }
+      
     }
-
   }

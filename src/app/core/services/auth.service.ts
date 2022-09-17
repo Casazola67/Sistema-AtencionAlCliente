@@ -78,6 +78,7 @@ export class AuthService {
   }
  
   ///// Cerrar Sesion | Log out /////
+  /*
   public async LogOut(){
     await this.auth.signOut();
     this.currentUser = {
@@ -87,14 +88,27 @@ export class AuthService {
     }
     //localStorage.removeItem('user');
     localStorage.clear();
-    this.router.navigate([""]);
+    this.router.navigate(["/login"]);
+  }*/
+  public async LogOut(){
+    return this.auth.signOut().then(() => {
+      this.currentUser = {
+        uid: '',
+        isLoggedIn: false,
+        isAdmin: false
+      }
+      //localStorage.removeItem('user');
+      localStorage.clear();
+      this.userData = '';
+      this.router.navigate([""]);
+    });
   }
 
   ///// Iniciar Sesion con Google | Sign in with Google /////
   GoogleAuth() {
     return this.AuthLogin(new auth.GoogleAuthProvider()).then((res: any) => {
       if (res) {
-        this.router.navigate(['dashboard']);
+        this.router.navigate(['']);
       }
     });
   }
@@ -104,7 +118,7 @@ export class AuthService {
       .signInWithPopup(provider)
       .then((result) => {
         this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['']);
         });
         //this.LoggedIn = true;
         this.setGoogleUserData(result.user);
@@ -151,6 +165,15 @@ export class AuthService {
           that.userData = obj;
         })
       }
+      else{
+        that.currentUser = {
+          uid: '',
+          isLoggedIn: false,
+          isAdmin: false
+        }
+        //localStorage.removeItem('user');
+        localStorage.clear();
+      }
     })
   }
 
@@ -161,6 +184,11 @@ export class AuthService {
   public getCurrentUser(): CurrentUser {
     return this.currentUser;
   };
+
+  public async getUserData(){
+    await this.userData;
+  }
+
   public isLoggedIn(): boolean{
     return this.currentUser.isLoggedIn;
   };
