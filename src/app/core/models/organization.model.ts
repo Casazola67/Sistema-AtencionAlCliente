@@ -1,3 +1,5 @@
+import { Schedule } from "./schedule.model";
+
 export class Organization {
 
     id?: string;
@@ -5,12 +7,9 @@ export class Organization {
     adress?: string;
     phone?: string;
     city?: string;
-    services?: string;
-    tags?: string[];
-    admin?: {idUser: string, nameUser: string};
-    partners?: { id: string, name: string}[];
-    links?: string[];
-    schedule?: { day: string, startTime: string, endTime: string, interval: number}[]
+    admin?: string;
+    partners?: string[];
+    schedule?: Schedule[];
 
     constructor() {
         this.id = '';
@@ -18,11 +17,8 @@ export class Organization {
         this.adress = '';
         this.phone = ''; 
         this.city = '';
-        this.services = '';
-        this.tags = [];
-        this.admin = {idUser: '', nameUser: ''};
+        this.admin = '';
         this.partners = [];
-        this.links = [];
         this.schedule = [];
 
     }

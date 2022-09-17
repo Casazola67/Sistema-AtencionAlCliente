@@ -1,0 +1,127 @@
+
+<div class="container mt-5">
+
+    <div class="row">
+        <div class="col-lg-8 offset-lg-2">
+          <div class="card">
+            <div class="card-body">
+              <h1 class="titulo">{{organization.name}}</h1>
+              <div *ngIf="currentDay.open_half; else Cerrado">  
+              <span>{{currentDay.from_half}}</span>  
+              <span>{{currentDay.to_half}}</span>
+              </div>
+              <div *ngIf="!currentDay.open_full"> 
+                <span>{{currentDay.from_full}}</span>  
+                <span>{{currentDay.to_full}}</span>
+              </div>
+              <hr>
+              <button class="btn btn-lg btn-outline-primary" (click)="openModal(Horario)">Ver Horario</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4" >
+      <div class="col-lg-8 offset-lg-2" *ngIf="userTicket.length == 0; else ValidTicket" >
+        <p class="alert alert-primary" *ngIf="!currentUser.uid">Inicia sesión si querés solicitar un ticket de atención</p>
+        <mat-accordion multi>
+          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle [disabled]="!currentUser.uid">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Ticket
+              </mat-panel-title>
+              <mat-panel-description>
+                Solicitar ticket de atención 
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <h4> Fecha </h4>
+            <div>
+              <mat-form-field>
+                <mat-label>DD/MM/YYYY</mat-label>
+              <input matInput 
+              [matDatepicker]="picker" 
+              [min]="minDate" [max]="maxDate" 
+              [value]="selected" 
+              [(ngModel)]="selected"
+              (dateChange)="onDateChange($event)" disabled>
+              <mat-datepicker #picker disabled="false"></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <p class="alert alert-warning" *ngIf="validDay">Cerrado, seleccione otra fecha</p>
+            <button mat-raised-button (click)="picker.open()">Seleccionar Fecha</button>
+            
+            <hr>
+            <h4> Hora </h4>
+            <mat-form-field>
+              <mat-label>Seleccione la hora</mat-label>
+              <mat-select [(ngModel)]="ticket.hour" [disabled]="validDay">
+                <mat-option *ngFor="let hour of hours" [value]="hour">{{hour}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-action-row>
+              <button mat-button color="primary" (click)="createTicket()" [disabled]="validDay || !ticket.hour">Crear Ticket</button>
+            </mat-action-row>
+          </mat-expansion-panel>
+            
+        </mat-accordion>
+      </div>
+    </div>
+
+    <div class="row mt-4" > 
+      <h1> Today Tickets </h1>
+      <div *ngIf="ticketsToday.length == 0">
+        <span>Por ahora no hay tickets!! :D</span>
+      </div>
+      <mat-card  *ngFor="let ticket of ticketsToday, index as i">
+        <mat-card-title>Ticket Nro: {{i+1}}</mat-card-title>
+        <mat-card-content>
+            <p>{{ticket.hour}}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+ 
+</div>
+
+<ng-template #Cerrado>
+    <span>Cerrado</span>
+</ng-template>
+
+<ng-template #Horario let-modal>
+  <div class="modal-body">
+    <table class="table">
+      <tbody>
+        <tr *ngFor="let dayWork of schedule; index as i">
+          <td><span>{{weekdays[i]}}</span></td>
+          <td>{{dayWork.from_half}} - {{dayWork.to_half}}</td>
+          <td *ngIf="!dayWork.open_full">{{dayWork.from_full}} - {{dayWork.to_full}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-template>
+
+<ng-template #ValidTicket> 
+
+    <div class="col-lg-8 offset-lg-2">
+      <mat-card *ngFor="let ticket of userTicket">
+        <mat-card-title>Ticket de Atención Actual</mat-card-title>
+        <mat-card-subtitle>{{ticket.hour}}</mat-card-subtitle>
+        <mat-card-content>
+
+          <mat-chip-list aria-label="Status" *ngIf="ticket.status == 'Pendiente'">
+            <mat-chip color="accent" selected>{{ticket.status}}</mat-chip>
+          </mat-chip-list>
+
+          <mat-chip-list aria-label="Status" *ngIf="ticket.status == 'Activo'">
+            <mat-chip color="primary" selected>{{ticket.status}}</mat-chip>
+          </mat-chip-list>
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+</ng-template>
+
+
+
