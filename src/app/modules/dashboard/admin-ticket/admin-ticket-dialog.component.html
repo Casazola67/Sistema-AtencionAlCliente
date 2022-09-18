@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Crear Ticket</h2>
+
+<mat-dialog-content class="mat-typography">
+    <h4>Fecha</h4>
+    <div>
+        <input matInput 
+        [matDatepicker]="picker" 
+        [min]="minDate" [max]="maxDate" 
+        [value]="selected" 
+        [(ngModel)]="selected"
+        >
+        <mat-datepicker #picker ></mat-datepicker>
+    </div>
+    <div>
+        <button mat-raised-button (click)="picker.open()">Seleccionar Fecha</button>
+    </div>
+    <div>
+        <h4>Hora</h4>
+        <mat-form-field>
+            <mat-label>Seleccione la hora</mat-label>
+            <mat-select [(ngModel)]="ticket.hour">
+              <mat-option *ngFor="let hour of hours" [value]="hour">{{hour}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-label>Nombre Cliente</mat-label>
+        <input type="text" class="form-control" [(ngModel)]="ticket.nameUser" placeholder="Introduzca el Nombre">
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cerrar</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial [disabled]="ticket.nameUser && !ticket.hour" (click)="createTicket()">Añadir Ticket</button>
+</mat-dialog-actions>
