@@ -1,90 +1,134 @@
-
 <div class="container mt-5">
+      <div class="row ">
 
-    <div class="row">
-        <div class="col-lg-8 offset-lg-2">
-          <div class="card">
-            <div class="card-body">
-              <h1 class="titulo">{{organization.name}}</h1>
-              <div *ngIf="currentDay.open_half; else Cerrado">  
-              <span>{{currentDay.from_half}}</span>  
-              <span>{{currentDay.to_half}}</span>
+          <div class="col-sm-8">
+
+            <div class="card" style="background-color: #2d132c; border-radius: 10px;">
+              <div class="card-body">
+
+                <div class="row">
+                  <div class="col-md-5">
+                    <a>
+                      <img class="img-fluid rounded mb-3 mb-md-0" src="../../../../assets/img/default.png" alt="">
+                    </a>
+                  </div>
+                  <div class="col-md-7">
+
+                        <h1 style="color: white" >{{organization.name}}</h1>
+                        <h2 *ngIf="currentDay.open_half; else Cerrado"> 
+                          <mat-chip-list aria-label="openClosed">
+                          <mat-chip style="background-color: white; color: black" selected>Abierto</mat-chip>
+                          </mat-chip-list>
+                        </h2>
+                        <hr style="color: white">
+                        <h3 class="my-3" style="color: white"> 
+                          <button mat-raised-button style="background-color: #2d132c; " disabled> 
+                            <mat-icon style="color: white">location_city</mat-icon> 
+                          </button>
+                          {{organization.city}}
+                        </h3>
+                        <h3 class="my-3" style="color: white"> 
+                          <button mat-raised-button style="background-color: #2d132c; " disabled> 
+                            <mat-icon style="color: white"> my_location</mat-icon>  
+                          </button>
+                          {{organization.city}}
+                        </h3>
+                        <hr style="color: white">
+                        <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="openModal(Horario)">Ver Horario</button>
+                  </div>
+                 
+                </div>
               </div>
-              <div *ngIf="!currentDay.open_full"> 
-                <span>{{currentDay.from_full}}</span>  
-                <span>{{currentDay.to_full}}</span>
+            </div>
+
+            <div class="mt-4" >
+              <div *ngIf="userTicket.length == 0; else ValidTicket">
+                <p class="alert" style="background-color: #c72c41;color:white;" *ngIf="!currentUser.uid">Inicia sesión si querés solicitar un ticket de atención </p>
+                <mat-accordion multi>
+                  <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle [disabled]="!currentUser.uid">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Ticket
+                      </mat-panel-title>
+                      <mat-panel-description>
+                        Solicitar ticket de atención 
+                      </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <hr>
+                    <h4> Fecha </h4>
+                    <div>
+                      <mat-form-field>
+                        <mat-label>DD/MM/YYYY</mat-label>
+                      <input matInput 
+                      [matDatepicker]="picker" 
+                      [min]="minDate" [max]="maxDate" 
+                      [value]="selected" 
+                      [(ngModel)]="selected"
+                      (dateChange)="onDateChange($event)" disabled>
+                      <mat-datepicker #picker disabled="false"></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                    <p class="alert alert-warning" *ngIf="validDay">Cerrado, seleccione otra fecha</p>
+                    <button mat-raised-button style="background-color: #c72c41; color: white" (click)="picker.open()">Seleccionar Fecha</button>           
+                    <hr>
+                    <h4> Hora </h4>
+                    <mat-form-field>
+                      <mat-label>Seleccione la hora</mat-label>
+                      <mat-select  [(ngModel)]="ticket.hour" [disabled]="validDay">
+                        <mat-option *ngFor="let hour of hours" [value]="hour">{{hour}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>      
+                    <mat-action-row>
+                      <button mat-button color="primary" (click)="createTicket()" [disabled]="validDay || !ticket.hour || !selected">Crear Ticket</button>
+                    </mat-action-row>
+                  </mat-expansion-panel>             
+                </mat-accordion>
               </div>
-              <hr>
-              <button class="btn btn-lg btn-outline-primary" (click)="openModal(Horario)">Ver Horario</button>
+            </div>
+            
+          </div>
+
+          <div class="col-sm-4">
+
+            <div class="card" style="border-color: white;">
+              <div class="card-body">
+                <div class="row" > 
+                  <mat-card style="background-color: #801336;" >
+                    <h1 style="text-align:center; color: white;">Tickets de hoy</h1>
+                  </mat-card>
+                    <mat-card class="mt-2" style="background-color: #c72c41; color: white" *ngIf="ticketsToday.length == 0">
+                      <mat-card-title>
+                        <p  style="text-align:center;">Vacío</p>
+                      </mat-card-title>
+                      <mat-card-content>
+                        <p  style="text-align:center;">No hay tickets registrados </p>
+                    </mat-card-content>
+                    </mat-card>
+
+                  <div class="card mt-2" style="background-color: #c72c41; color: white; border-radius: 10px;" *ngFor="let ticket of ticketsToday, index as i">
+                    <div class="card-body">
+                      <span class="badge ">
+                        <mat-icon style="cursor: pointer;" (click)="openSnackBar(ticket.hour, ticket.date)" >info</mat-icon>
+                      </span>
+                      <h3 class="card-title">Ticket Nro: {{i+1}}</h3>
+                      <h4 class="card-subtitle mb-1 " style="color:white">Hora: {{ticket.hour}}</h4>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-    </div>
-    
-    <div class="row mt-4" >
-      <div class="col-lg-8 offset-lg-2" *ngIf="userTicket.length == 0; else ValidTicket" >
-        <p class="alert alert-primary" *ngIf="!currentUser.uid">Inicia sesión si querés solicitar un ticket de atención</p>
-        <mat-accordion multi>
-          <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle [disabled]="!currentUser.uid">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Ticket
-              </mat-panel-title>
-              <mat-panel-description>
-                Solicitar ticket de atención 
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-            <h4> Fecha </h4>
-            <div>
-              <mat-form-field>
-                <mat-label>DD/MM/YYYY</mat-label>
-              <input matInput 
-              [matDatepicker]="picker" 
-              [min]="minDate" [max]="maxDate" 
-              [value]="selected" 
-              [(ngModel)]="selected"
-              (dateChange)="onDateChange($event)" disabled>
-              <mat-datepicker #picker disabled="false"></mat-datepicker>
-              </mat-form-field>
-            </div>
-            <p class="alert alert-warning" *ngIf="validDay">Cerrado, seleccione otra fecha</p>
-            <button mat-raised-button (click)="picker.open()">Seleccionar Fecha</button>
-            
-            <hr>
-            <h4> Hora </h4>
-            <mat-form-field>
-              <mat-label>Seleccione la hora</mat-label>
-              <mat-select [(ngModel)]="ticket.hour" [disabled]="validDay">
-                <mat-option *ngFor="let hour of hours" [value]="hour">{{hour}}</mat-option>
-              </mat-select>
-            </mat-form-field>
 
-            <mat-action-row>
-              <button mat-button color="primary" (click)="createTicket()" [disabled]="validDay || !ticket.hour">Crear Ticket</button>
-            </mat-action-row>
-          </mat-expansion-panel>
-            
-        </mat-accordion>
       </div>
-    </div>
-
-    <div class="row mt-4" > 
-      <h1> Today Tickets </h1>
-      <div *ngIf="ticketsToday.length == 0">
-        <span>Por ahora no hay tickets!! :D</span>
-      </div>
-      <mat-card  *ngFor="let ticket of ticketsToday, index as i">
-        <mat-card-title>Ticket Nro: {{i+1}}</mat-card-title>
-        <mat-card-content>
-            <p>{{ticket.hour}}</p>
-        </mat-card-content>
-      </mat-card>
-    </div>
- 
 </div>
 
+
 <ng-template #Cerrado>
-    <span>Cerrado</span>
+  <mat-chip-list aria-label="openClosed">
+    <mat-chip style="background-color: #801336;" selected>Cerrado</mat-chip>
+    </mat-chip-list>
 </ng-template>
 
 <ng-template #Horario let-modal>
@@ -103,23 +147,40 @@
 
 <ng-template #ValidTicket> 
 
-    <div class="col-lg-8 offset-lg-2">
-      <mat-card *ngFor="let ticket of userTicket">
-        <mat-card-title>Ticket de Atención Actual</mat-card-title>
-        <mat-card-subtitle>{{ticket.hour}}</mat-card-subtitle>
+      <mat-card style="background-color: #801336; border-radius: 10px;" *ngFor="let ticket of userTicket">
+        <mat-card-title style="text-align:center; color:white;">
+          <h1 style="color: white">
+            Ticket de Atención Actual
+          </h1>
+          <h3>
+            <p>
+              Estado: 
+              <button mat-raised-button style="border-radius: 50px; background-color: #e6cb32;color:black;" *ngIf="ticket.status == 'Pendiente'" disabled > Pendiente </button>
+              <button mat-raised-button style="border-radius: 50px; background-color: #32d177;color:white;" *ngIf="ticket.status == 'Activo'" disabled > Activo </button>
+            </p>
+          </h3>
+        </mat-card-title>
+        <hr style="color: white">
+        <mat-card-subtitle style="text-align:center">
+          <h3 class="my-3" > 
+            <p style="color:white">
+              <button mat-raised-button style="background-color: #c72c41;color:white;" disabled> 
+                <mat-icon> insert_invitation</mat-icon>
+              </button>
+              {{ticket.date}}
+              <span style="display:inline-block; width: 10px;"></span>
+              <button mat-raised-button style="background-color: #c72c41;color:white;" disabled> 
+                <mat-icon>access_time</mat-icon> 
+              </button>
+              {{ticket.hour}}
+            </p>
+          </h3>   
+        
+        </mat-card-subtitle>
+        <hr style="color: white">
         <mat-card-content>
-
-          <mat-chip-list aria-label="Status" *ngIf="ticket.status == 'Pendiente'">
-            <mat-chip color="accent" selected>{{ticket.status}}</mat-chip>
-          </mat-chip-list>
-
-          <mat-chip-list aria-label="Status" *ngIf="ticket.status == 'Activo'">
-            <mat-chip color="primary" selected>{{ticket.status}}</mat-chip>
-          </mat-chip-list>
-
         </mat-card-content>
       </mat-card>
-    </div>
 
 </ng-template>
 

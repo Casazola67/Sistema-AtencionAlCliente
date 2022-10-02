@@ -4,46 +4,64 @@
 
   <span style="flex: 1 1 auto;"></span>
 
-  <span  *ngIf="user as user">
-    <a class="nav-link active" aria-current="page" > {{(user.displayName)}}</a>
+  <!--***** MENU 1 *****-->
+
+  <button mat-icon-button [matMenuTriggerFor]="menu1">
+    <mat-icon>person</mat-icon>
+  </button>
+
+  <mat-menu #menu1="matMenu">
+    <button mat-menu-item disabled *ngIf="currentUser.uid" >
+      <mat-icon>person</mat-icon>
+      <span>{{user.displayName}}</span>
+    </button>
+    <button mat-menu-item *ngIf="!currentUser.uid" (click)="goTo('')">
+      <mat-icon>power_settings_new</mat-icon>
+      <span>Iniciar Sesión</span>
+    </button>
+  </mat-menu>
+
+  <span>
+    <a class="nav-link active" aria-current="page"></a>
   </span>
-  <button mat-icon-button [matMenuTriggerFor]="menu" class="example-icon">
+
+  <!--***** MENU 2 *****-->
+
+  <button mat-icon-button [matMenuTriggerFor]="menu2" class="example-icon">
     <mat-icon>menu</mat-icon>
   </button>
-  <mat-menu #menu="matMenu">
 
+  <mat-menu #menu2="matMenu">
+
+    <!-- SUPERADMIN -->
     <button mat-menu-item [matMenuTriggerFor]="SuperAdmin" *ngIf="currentUser.uid == 'M2224w0b8eMKwPhRgoKd06tE4tH3'">
       <mat-icon>lock</mat-icon>
       <span>SuperAdmin</span>
     </button>
-
-
     <mat-menu #SuperAdmin="matMenu">
       <button mat-menu-item (click)="goTo('organizations')">
         <mat-icon>lock</mat-icon>
         <span>Organizacion | Admin</span>
       </button>
-  
       <button mat-menu-item (click)="goTo('users')">
         <mat-icon>lock</mat-icon>
         <span>Usuarios | Admin</span>
       </button>
     </mat-menu>
-
     <hr *ngIf="currentUser.uid == 'M2224w0b8eMKwPhRgoKd06tE4tH3'">
 
+    <!-- ADMIN -->
     <button mat-menu-item (click)="goTo('admin-org')" *ngIf="currentUser.uid == 'M2224w0b8eMKwPhRgoKd06tE4tH3' || organizationList.length > 0">
       <mat-icon>business_center</mat-icon>
       <span>Administrator</span>
     </button>
-    
     <hr *ngIf="currentUser.uid == 'M2224w0b8eMKwPhRgoKd06tE4tH3' || organizationList.length > 0">
-
+    
+    <!-- USER -->
     <button mat-menu-item *ngIf="currentUser.uid" (click)="LogOut()">
       <mat-icon>power_settings_new</mat-icon>
       <span>Cerrar Sesión</span>
     </button>
-
     <button mat-menu-item *ngIf="!currentUser.uid" (click)="goTo('')">
       <mat-icon>power_settings_new</mat-icon>
       <span>Iniciar Sesión</span>

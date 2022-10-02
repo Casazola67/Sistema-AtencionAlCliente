@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
 // MODELS
 import { Organization } from 'src/app/core/models/organization.model';
 import { Schedule } from 'src/app/core/models/schedule.model';
@@ -43,6 +44,7 @@ import * as moment from 'moment';
       public modalService: NgbModal,
       private authService: AuthService,
       private organizationService: OrganizationService,
+      private snackBar: MatSnackBar,
       private ticketService: TicketService,
       )
     { 
@@ -85,7 +87,7 @@ import * as moment from 'moment';
         });
         /////Filter and order today tickets
         this.ticketsToday = this.ticketList.filter((obj) => {
-          return obj.date === new Date().toDateString();
+          return obj.date === new Date().toLocaleDateString();
         });
         this.ticketsToday.sort(function(a,b){
           if(moment(a.hour, 'HH:mm') > moment(b.hour, 'HH:mm')){
@@ -114,6 +116,16 @@ import * as moment from 'moment';
     validDay = false;
     setStep(index: number) {
       this.step = index;
+    }
+    //////////////////////////// SNACKBAR ////////////////////////////////////////////////////////
+    horizontalPosition: MatSnackBarHorizontalPosition = 'end';
+    verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+    openSnackBar(hour: string, date: string) {
+      this.snackBar.open( 'Fecha: '+ date , 'Cerrar', {
+        horizontalPosition: this.horizontalPosition,
+        verticalPosition: this.verticalPosition,
+      });
     }
 
     //////////////////////////// MAT DATE INPUT ////////////////////////////////////////////////////////

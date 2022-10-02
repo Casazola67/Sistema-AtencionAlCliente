@@ -1,0 +1,13 @@
+.badge{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    padding: 12px 15px;
+    border-radius: 0 10px 0 26px;
+    font-size: 14px;
+    background-color: #801336;
+}
+
+.card-title{
+    font-weight: bold;
+}

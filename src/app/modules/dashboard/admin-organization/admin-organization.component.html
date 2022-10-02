@@ -1,137 +1,191 @@
 <div class="container mt-5">
-    
-    <div class="row">
-      <div class="col-lg-8 offset-lg-2">
-        <div class="card">
-          <div class="card-body">
-            <h1 class="titulo">Organizaciones</h1>
 
-          </div>
+  <div class="row">
+
+    <div class="col-sm-7">
+
+      <mat-toolbar>
+        <button mat-raised-button style="background-color: #c72c41" disabled> <mat-icon style="color: white">add_box</mat-icon> </button>
+        <span style="display:inline-block; width: 10px;"></span>
+        <div class="col-sm-6">
+            <h1> 
+                <span> Añadir Organización </span>
+            </h1>
         </div>
-      </div>
-    </div>
+      </mat-toolbar>
 
-    <div class="row mt-4">
-        <div class="col-lg-8 offset-lg-2">
-          <div class="card">
-            <div class="card-body">
-              <h2 class="titulo mb-3">Crear organizacion</h2>
-              <mat-vertical-stepper [linear]="false" #stepper>
+      <div class="card mt-2">
+        <div class="card-body">
+          <h2 class="titulo mb-3">Crear organizacion</h2>
+          <mat-vertical-stepper [linear]="false" #stepper>
 
-                <mat-step>
-                  <ng-template matStepLabel>Nombre</ng-template>
-                  <div class="input-group input-group-lg mb-3">
-                    <input type="text" class="form-control" [(ngModel)]="organization.name" placeholder="Nombre">
-                  </div>
-                  <div>
-                    <button type="button" class="btn btn-primary" matStepperNext>Siguiente</button>
-                  </div>
-                </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>Nombre</ng-template>
+              <div class="input-group mt-4 mb-3">
+                <span class="input-group-text" id="addon-name">Nombre</span>
+                <input class="form-control" [(ngModel)]="organization.name" placeholder="Ej: Peluquería Lex Luthor" aria-describedby="addon-name">
+              </div>
+              <div>
+                <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperNext>Siguiente</button>
+              </div>
+            </mat-step>
 
-                <mat-step>
-                  <ng-template matStepLabel>Responsables</ng-template>
-                  <p>ID Gerente</p>
-                  <div class="input-group input-group-lg mb-3">
-                    <input type="text" class="form-control" [(ngModel)]="organization.admin" (keyup)="checkIfIDValid($event)" placeholder="ID">    
-                  </div>
-                  <p class="alert alert-warning" *ngIf="!validID">Introduce un ID válido</p>
-                  <div>
-                    <button type="button" class="btn btn-primary" matStepperPrevious>Anterior</button>
-                    <button type="button" class="btn btn-primary" matStepperNext>Siguiente</button>
-                  </div>
-                </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>Responsables</ng-template>
+              <p class="mt-2">ID Gerente</p>
+              <div class="input-group mt-4 mb-3">
+                <span class="input-group-text" id="addon-id">ID</span>
+                <input class="form-control" [(ngModel)]="organization.admin" (keyup)="checkIfIDValid($event)" aria-describedby="addon-id">    
+              </div>
+              <p class="alert alert-warning" *ngIf="!validID">Introduce un ID válido</p>
+              <div>
+                <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperPrevious>Anterior</button>
+                <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperNext>Siguiente</button>
+              </div>
+            </mat-step>
 
-                <mat-step>
-                  <ng-template matStepLabel>Ubicación</ng-template>
-                  <div class="input-group input-group-lg mb-3">
-                    <input type="text" class="form-control" [(ngModel)]="organization.city" placeholder="Ciudad">
-                  </div>
-                  <div class="input-group input-group-lg mb-3">
-                    <input type="text" class="form-control" [(ngModel)]="organization.adress" placeholder="Direccion">
-                  </div>
-                  <div>
-                    <button type="button" class="btn btn-primary" matStepperPrevious>Anterior</button>
-                    <button type="button" class="btn btn-primary" matStepperNext>Siguiente</button>
-                  </div>
-                </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>Ubicación</ng-template>
+              <div class="input-group mt-4 mb-3">
+                <span class="input-group-text" id="addon-city">Ciudad</span>
+                <input class="form-control" [(ngModel)]="organization.city" placeholder="Ex. Ciudad Gótica" aria-describedby="addon-city">
+              </div>
+              <div class="input-group mt-4 mb-3">
+                <span class="input-group-text" id="addon-address">Dirección</span>
+                <input class="form-control" [(ngModel)]="organization.adress" placeholder="Ex. Calle Belgrano #1234" aria-describedby="addon-city">
+              </div>
+              <div>
+                <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperPrevious>Anterior</button>
+                <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperNext>Siguiente</button>
+              </div>
+            </mat-step>
 
-                <mat-step>
-                  <ng-template matStepLabel>Horario</ng-template>
-                  <div *ngFor="let day of weekdays; index as i">
-                    <div>{{weekdays[i]}}</div>
-                    <mat-slide-toggle [(ngModel)]="businessHours[i].open_half" (click)="disable(i)">Abierto?</mat-slide-toggle>
-                    <mat-slide-toggle [(ngModel)]="businessHours[i].open_full" [disabled]="!businessHours[i].open_half">Turno Continuo?</mat-slide-toggle>
-                    <div *ngIf="businessHours[i].open_half">
+            <mat-step>
+              <ng-template matStepLabel>Horario</ng-template>
+              <div class="mt-4" *ngFor="let day of weekdays; index as i">
+                <h2>{{weekdays[i]}}</h2>
+                <div class="row mt-1">
+                  <div class="col">
+                    <h3> 
+                      Abierto? 
+                      <mat-slide-toggle [(ngModel)]="businessHours[i].open_half" (click)="disable(i)"></mat-slide-toggle>
+                    </h3>     
+                  </div>
+                  <div class="col">
+                    <h3>
+                      Turno Continuo?
+                      <mat-slide-toggle [(ngModel)]="businessHours[i].open_full" [disabled]="!businessHours[i].open_half"></mat-slide-toggle>
+                    </h3>  
+                  </div>
+                </div>
+
+
+                <div class="row mt-1" *ngIf="businessHours[i].open_half">
+
+                  <div class="col">
+                    <mat-form-field>
+                      <mat-label>From</mat-label>
+                      <mat-select [(ngModel)]="businessHours[i].from_half">
+                        <mat-option *ngFor="let hour of hours" [value]="hour" [disabled]="!businessHours[i].open_half" (click)="change(i)">{{hour}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col">
+                    <mat-form-field>
+                      <mat-label>To</mat-label>
+                      <mat-select [(ngModel)]="businessHours[i].to_half">
+                        <mat-option *ngFor="let hour of hours" [value]="hour" [disabled]="!businessHours[i].open_half" (click)="change(i)">{{hour}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="row" *ngIf="!businessHours[i].open_full">
+                    <h3 style="text-align: justify;">- Horario Adicional -</h3>
+                    <div class="col">
                       <mat-form-field>
                         <mat-label>From</mat-label>
-                        <mat-select [(ngModel)]="businessHours[i].from_half">
-                          <mat-option *ngFor="let hour of hours" [value]="hour" [disabled]="!businessHours[i].open_half" (click)="change(i)">{{hour}}</mat-option>
+                        <mat-select [(ngModel)]="businessHours[i].from_full">
+                          <mat-option *ngFor="let hour of hours" [value]="hour" [disabled]="businessHours[i].open_full" (click)="change(i)">{{hour}}</mat-option>
                         </mat-select>
                       </mat-form-field>
+                    </div>
+                    <div class="col">
                       <mat-form-field>
                         <mat-label>To</mat-label>
-                        <mat-select [(ngModel)]="businessHours[i].to_half">
-                          <mat-option *ngFor="let hour of hours" [value]="hour" [disabled]="!businessHours[i].open_half" (click)="change(i)">{{hour}}</mat-option>
+                        <mat-select [(ngModel)]="businessHours[i].to_full">
+                          <mat-option *ngFor="let hour of hours" [value]="hour" [disabled]="businessHours[i].open_full" (click)="change(i)">{{hour}}</mat-option>
                         </mat-select>
                       </mat-form-field>
-                      <div *ngIf="!businessHours[i].open_full">
-                        <mat-form-field>
-                          <mat-label>From</mat-label>
-                          <mat-select [(ngModel)]="businessHours[i].from_full">
-                            <mat-option *ngFor="let hour of hours" [value]="hour" [disabled]="businessHours[i].open_full" (click)="change(i)">{{hour}}</mat-option>
-                          </mat-select>
-                        </mat-form-field>
-                        <mat-form-field>
-                          <mat-label>To</mat-label>
-                          <mat-select [(ngModel)]="businessHours[i].to_full">
-                            <mat-option *ngFor="let hour of hours" [value]="hour" [disabled]="businessHours[i].open_full" (click)="change(i)">{{hour}}</mat-option>
-                          </mat-select>
-                        </mat-form-field>
-                      </div>
                     </div>
                   </div>
-                  <div>
-                    <button type="button" class="btn btn-primary" matStepperPrevious>Anterior</button>
-                    <button type="button" class="btn btn-primary" matStepperNext>Siguiente</button>
-                  </div>
-                </mat-step>
+                </div>
+              </div>
+              <div class="mt-4">
+                <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperPrevious>Anterior</button>
+                <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperNext>Siguiente</button>
+              </div>
+            </mat-step>
 
-                <mat-step>
-                  <ng-template matStepLabel>Completado</ng-template>
-                  <h4>Completa el formulario presionando en "Guardar"</h4>
-                  <div>
-                    <button type="button" class="btn btn-primary" matStepperPrevious>Anterior</button>
-                    <button type="button" class="btn btn-primary" (click)="createOrganization()" >Guardar</button>
-                  </div>
-                </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>Completado</ng-template>
+              <h4>Completa el formulario presionando en "Guardar"</h4>
+              <div>
+                <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperPrevious>Anterior</button>
+                <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="createOrganization()" >Guardar</button>
+              </div>
+            </mat-step>
 
-              </mat-vertical-stepper>
-            </div>
-          </div>
-        </div>
-
-  
-      <!--CAMBIAR HTML POR ANGULARMATERIAL-->
-      <div class="col-lg-8 offset-lg-2">
-        <div class="card">
-          <div class="card-body">
-            <h1 class="titulo">Listar Organizaciones</h1>
-            <table class="table">
-              <tbody>
-                <tr *ngFor="let organization of organizationList">
-                  <td>{{organization.name}}</td>
-                  <td> 
-                    <button class="btn btn-success btn-lg"(click)="deleteOrganization(organization.id)">
-                      <i>Borrar</i>
-                    </button>  
-                  </td> 
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          </mat-vertical-stepper>
         </div>
       </div>
-  
+
     </div>
+    
+    <div class="col-sm-5">
+
+      <mat-toolbar>
+        <button mat-raised-button style="background-color: #c72c41" disabled> <mat-icon style="color: white">location_city</mat-icon> </button>
+        <span style="display:inline-block; width: 10px;"></span>
+        <div class="col-sm-6">
+            <h1> 
+                <span> Todas las Organizaciones </span>
+            </h1>
+        </div>
+      </mat-toolbar>
+
+      <div class="card mt-2">
+        <div class="card-body">
+
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;">
+
+            <ng-container matColumnDef="Nombre">
+                <th mat-header-cell *matHeaderCellDef > Nombre </th>
+                <td mat-cell *matCellDef="let organization"> {{organization.name}} </td>
+            </ng-container>
+            <ng-container matColumnDef="Acciones">
+
+                <th mat-header-cell *matHeaderCellDef> Copiar ID </th>
+                <td mat-cell *matCellDef="let organization"> 
+                    <button mat-raised-button style="background-color: #c72c41;color:white;">
+                      <mat-icon> list_alt</mat-icon>
+                    </button>
+                </td>                    
+
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" ></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+
+
+        </div>
+      </div>
+      
+
+    </div>
+
   </div>
+   
+</div>
 

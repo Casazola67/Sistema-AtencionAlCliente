@@ -2,205 +2,217 @@
 
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <div class="card">
-            <div class="card-body">
-                <h1 class="titulo">Admin | Tickets </h1>
-                <button class="btn btn-lg btn-outline-primary" (click)="openDialog()">+ Ticket</button>
-            </div>
+            <div class="card mt-2" style="background-color: #2d132c; border-radius: 10px;">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-5">
+                      <a>
+                        <img class="img-fluid rounded mb-3 mb-md-0" src="../../../../assets/img/default.png" alt="">
+                      </a>
+                    </div>
+                    <div class="col-md-7">
+                        <h1 style="color: white">Admin | Tickets </h1>
+                        <div class="card-text" style="color: white">{{organization.name}}</div>
+                        <hr style="color: white">
+                        <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="openDialog()">+ Ticket</button>
+                    </div>
+                  </div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col-lg-8 offset-lg-2">
-            <mat-tab-group dynamicHeight>
-            <mat-tab label="Pendientes ({{pendingCount}})">
-                <div class="example-large-box mat-elevation-z4">
+            <div class="card mt-4" style="border-radius: 10px;">
 
-                    <div class="row mt-4">
-                          <div class="card">
-                            <div class="card-body">
+                <mat-tab-group dynamicHeight>
+                    <mat-tab label="Pendientes ({{pendingCount}})">
+                        <div class="example-large-box mat-elevation-z4">
 
-                                <button mat-raised-button [matMenuTriggerFor]="menu">Ordenar por</button>
-                                <mat-menu #menu="matMenu" yPosition="above">
-                                <button mat-menu-item (click)="applyFilter('Date Up')">Fecha (Ascendente)</button>
-                                <button mat-menu-item (click)="applyFilter('Date Down')">Fecha (Descendente)</button>
-                                <button mat-menu-item (click)="applyFilter('Hour Up')">Hora (Ascendente)</button>
-                                <button mat-menu-item (click)="applyFilter('Hour Down')">Hora (Descendente</button>
-                                <button mat-menu-item (click)="applyFilter('Name Up')">Nombre (A - Z)</button>
-                                <button mat-menu-item (click)="applyFilter('Name Down')">Nombre (Z - A)</button>
-                                </mat-menu>
+                            <div class="row mt-4">
+                                <div class="card">
+                                    <div class="card-body">
 
-                                <hr>
-                                                  
-                                <table mat-table [dataSource]="pendingSource" class="mat-elevation-z8" style="width: 100%;">
-                
-                                    <ng-container matColumnDef="Fecha">
-                                        <th mat-header-cell *matHeaderCellDef > Fecha </th>
-                                        <td mat-cell *matCellDef="let ticket"> {{ticket.date}} </td>
-                                    </ng-container>
-                                    <ng-container matColumnDef="Hora">
-                                        <th mat-header-cell *matHeaderCellDef> Hora </th>
-                                        <td mat-cell *matCellDef="let ticket"> {{ticket.hour}} </td>
-                                    </ng-container>
-                                    <ng-container matColumnDef="Usuario">
-                                        <th mat-header-cell *matHeaderCellDef> Usuario </th>
-                                        <td mat-cell *matCellDef="let ticket"> {{ticket.nameUser}} </td>
-                                    </ng-container>
-                                    <ng-container matColumnDef="Estado">
-                                        <th mat-header-cell *matHeaderCellDef> Estado </th>
-                                        <td mat-cell *matCellDef="let ticket"> 
-                                            <mat-chip-list aria-label="Status">
-                                                <mat-chip color="accent" selected>{{ticket.status}}</mat-chip>
-                                            </mat-chip-list>
-                                         </td>
-                                    </ng-container>
-                                    <ng-container matColumnDef="Acciones">
-                                        <th mat-header-cell *matHeaderCellDef> Acciones</th>
-                                        <td mat-cell *matCellDef="let ticket">
-                                            <button mat-raised-button color="primary" (click)="buttonAction('active', ticket)">Activar</button>
-                                            <button mat-raised-button color="warn" (click)="buttonAction('close', ticket)">Cerrar</button>
-                                        </td>     
-                                    </ng-container>
-                
-                                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                
-                                    <tr class="mat-row" *matNoDataRow>
-                                        <td class="mat-cell" colspan="4">No hay tickets por el momento :D </td>
-                                    </tr>
-                                </table>
-                          </div>
+                                        <button mat-raised-button [matMenuTriggerFor]="menu">Ordenar por</button>
+                                        <mat-menu #menu="matMenu" yPosition="above">
+                                        <button mat-menu-item (click)="applyFilter('Date Up')">Fecha (Ascendente)</button>
+                                        <button mat-menu-item (click)="applyFilter('Date Down')">Fecha (Descendente)</button>
+                                        <button mat-menu-item (click)="applyFilter('Hour Up')">Hora (Ascendente)</button>
+                                        <button mat-menu-item (click)="applyFilter('Hour Down')">Hora (Descendente</button>
+                                        <button mat-menu-item (click)="applyFilter('Name Up')">Nombre (A - Z)</button>
+                                        <button mat-menu-item (click)="applyFilter('Name Down')">Nombre (Z - A)</button>
+                                        </mat-menu>
+
+                                        <hr>
+                                                        
+                                        <table mat-table [dataSource]="pendingSource" class="mat-elevation-z8" style="width: 100%;">
+                        
+                                            <ng-container matColumnDef="Fecha">
+                                                <th mat-header-cell *matHeaderCellDef > Fecha </th>
+                                                <td mat-cell *matCellDef="let ticket"> {{ticket.date}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Hora">
+                                                <th mat-header-cell *matHeaderCellDef> Hora </th>
+                                                <td mat-cell *matCellDef="let ticket"> {{ticket.hour}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Usuario">
+                                                <th mat-header-cell *matHeaderCellDef> Usuario </th>
+                                                <td mat-cell *matCellDef="let ticket"> {{ticket.nameUser}} </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Estado">
+                                                <th mat-header-cell *matHeaderCellDef> Estado </th>
+                                                <td mat-cell *matCellDef="let ticket"> 
+                                                    <mat-chip-list aria-label="Status">
+                                                        <mat-chip color="accent" selected>{{ticket.status}}</mat-chip>
+                                                    </mat-chip-list>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="Acciones">
+                                                <th mat-header-cell *matHeaderCellDef> Acciones</th>
+                                                <td mat-cell *matCellDef="let ticket">
+                                                    <button mat-raised-button color="primary" (click)="buttonAction('active', ticket)">Activar</button>
+                                                    <button mat-raised-button color="warn" (click)="buttonAction('close', ticket)">Cerrar</button>
+                                                </td>     
+                                            </ng-container>
+                        
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        
+                                            <tr class="mat-row" *matNoDataRow>
+                                                <td class="mat-cell" colspan="4">No hay tickets por el momento :D </td>
+                                            </tr>
+                                        </table>
+                                </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </mat-tab>
-            <mat-tab label="Activos ({{activeCount}})">
-                <div class="example-large-box mat-elevation-z4">
+                    </mat-tab>
+                    <mat-tab label="Activos ({{activeCount}})">
+                        <div class="example-large-box mat-elevation-z4">
 
-                    <div class="row mt-4">
-                        <div class="card">
-                          <div class="card-body">
+                            <div class="row mt-4">
+                                <div class="card">
+                                <div class="card-body">
 
-                            <button mat-raised-button [matMenuTriggerFor]="menu2">Ordenar por</button>
-                                <mat-menu #menu2="matMenu" yPosition="above">
-                                    <button mat-menu-item (click)="applyFilterActive('Date Up')">Fecha (Ascendente)</button>
-                                    <button mat-menu-item (click)="applyFilterActive('Date Down')">Fecha (Descendente)</button>
-                                    <button mat-menu-item (click)="applyFilterActive('Hour Up')">Hora (Ascendente)</button>
-                                    <button mat-menu-item (click)="applyFilterActive('Hour Down')">Hora (Descendente)</button>
-                                    <button mat-menu-item (click)="applyFilterActive('Name Up')">Nombre (A - Z)</button>
-                                    <button mat-menu-item (click)="applyFilterActive('Name Down')">Nombre (Z - A)</button>
-                                </mat-menu>
+                                    <button mat-raised-button [matMenuTriggerFor]="menu2">Ordenar por</button>
+                                        <mat-menu #menu2="matMenu" yPosition="above">
+                                            <button mat-menu-item (click)="applyFilterActive('Date Up')">Fecha (Ascendente)</button>
+                                            <button mat-menu-item (click)="applyFilterActive('Date Down')">Fecha (Descendente)</button>
+                                            <button mat-menu-item (click)="applyFilterActive('Hour Up')">Hora (Ascendente)</button>
+                                            <button mat-menu-item (click)="applyFilterActive('Hour Down')">Hora (Descendente)</button>
+                                            <button mat-menu-item (click)="applyFilterActive('Name Up')">Nombre (A - Z)</button>
+                                            <button mat-menu-item (click)="applyFilterActive('Name Down')">Nombre (Z - A)</button>
+                                        </mat-menu>
 
-                            <hr>
-                               
-                              <table mat-table [dataSource]="activeSource" class="mat-elevation-z8" style="width: 100%;">
-              
-                                  <ng-container matColumnDef="Fecha">
-                                      <th mat-header-cell *matHeaderCellDef > Fecha </th>
-                                      <td mat-cell *matCellDef="let ticket"> {{ticket.date}} </td>
-                                  </ng-container>
-                                  <ng-container matColumnDef="Hora">
-                                      <th mat-header-cell *matHeaderCellDef> Hora </th>
-                                      <td mat-cell *matCellDef="let ticket"> {{ticket.hour}} </td>
-                                  </ng-container>
-                                  <ng-container matColumnDef="Usuario">
-                                      <th mat-header-cell *matHeaderCellDef> Usuario </th>
-                                      <td mat-cell *matCellDef="let ticket"> {{ticket.nameUser}} </td>
-                                  </ng-container>
-                                  <ng-container matColumnDef="Estado">
-                                    <th mat-header-cell *matHeaderCellDef> Estado </th>
-                                    <td mat-cell *matCellDef="let ticket"> 
-                                        <mat-chip-list aria-label="Status">
-                                            <mat-chip color="primary" selected>{{ticket.status}}</mat-chip>
-                                        </mat-chip-list>
-                                     </td>
-                                </ng-container>
-                                  <ng-container matColumnDef="Acciones">
-                                      <th mat-header-cell *matHeaderCellDef> Acciones</th>
-                                      <td mat-cell *matCellDef="let ticket"> 
-                                        <button mat-raised-button color="warn" (click)="buttonAction('close', ticket)">Cerrar</button>
-                                      </td>
-                                  </ng-container>
-              
-                                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              
-                                  <tr class="mat-row" *matNoDataRow>
-                                      <td class="mat-cell" colspan="4">No hay tickets por el momento :D</td>
-                                  </tr>
-                              </table>
+                                    <hr>
+                                    
+                                    <table mat-table [dataSource]="activeSource" class="mat-elevation-z8" style="width: 100%;">
+                    
+                                        <ng-container matColumnDef="Fecha">
+                                            <th mat-header-cell *matHeaderCellDef > Fecha </th>
+                                            <td mat-cell *matCellDef="let ticket"> {{ticket.date}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Hora">
+                                            <th mat-header-cell *matHeaderCellDef> Hora </th>
+                                            <td mat-cell *matCellDef="let ticket"> {{ticket.hour}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Usuario">
+                                            <th mat-header-cell *matHeaderCellDef> Usuario </th>
+                                            <td mat-cell *matCellDef="let ticket"> {{ticket.nameUser}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Estado">
+                                            <th mat-header-cell *matHeaderCellDef> Estado </th>
+                                            <td mat-cell *matCellDef="let ticket"> 
+                                                <mat-chip-list aria-label="Status">
+                                                    <mat-chip color="primary" selected>{{ticket.status}}</mat-chip>
+                                                </mat-chip-list>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Acciones">
+                                            <th mat-header-cell *matHeaderCellDef> Acciones</th>
+                                            <td mat-cell *matCellDef="let ticket"> 
+                                                <button mat-raised-button color="warn" (click)="buttonAction('close', ticket)">Cerrar</button>
+                                            </td>
+                                        </ng-container>
+                    
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    
+                                        <tr class="mat-row" *matNoDataRow>
+                                            <td class="mat-cell" colspan="4">No hay tickets por el momento :D</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                  </div>
-                </div>
-            </mat-tab>
-
-            <mat-tab label="Cerrados">
-                <div class="example-large-box mat-elevation-z4">
-
-                    <div class="row mt-4">
-                        <div class="card">
-                          <div class="card-body">
-
-                            <button mat-raised-button [matMenuTriggerFor]="menu3">Ordenar por</button>
-                                <mat-menu #menu3="matMenu" yPosition="above">
-                                    <button mat-menu-item (click)="applyFilterClosed('Date Up')">Fecha (Ascendente)</button>
-                                    <button mat-menu-item (click)="applyFilterClosed('Date Down')">Fecha (Descendente)</button>
-                                    <button mat-menu-item (click)="applyFilterClosed('Hour Up')">Hora (Ascendente)</button>
-                                    <button mat-menu-item (click)="applyFilterClosed('Hour Down')">Hora (Descendente)</button>
-                                    <button mat-menu-item (click)="applyFilterClosed('Name Up')">Nombre (A - Z)</button>
-                                    <button mat-menu-item (click)="applyFilterClosed('Name Down')">Nombre (Z - A)</button>
-                                </mat-menu>
-
-                            <hr>
-
-                            <table mat-table [dataSource]="closedSource" class="mat-elevation-z8" style="width: 100%;">
-              
-                                <ng-container matColumnDef="Fecha">
-                                    <th mat-header-cell *matHeaderCellDef > Fecha </th>
-                                    <td mat-cell *matCellDef="let ticket"> {{ticket.date}} </td>
-                                </ng-container>
-                                <ng-container matColumnDef="Hora">
-                                    <th mat-header-cell *matHeaderCellDef> Hora </th>
-                                    <td mat-cell *matCellDef="let ticket"> {{ticket.hour}} </td>
-                                </ng-container>
-                                <ng-container matColumnDef="Usuario">
-                                    <th mat-header-cell *matHeaderCellDef> Usuario </th>
-                                    <td mat-cell *matCellDef="let ticket"> {{ticket.nameUser}} </td>
-                                </ng-container>
-                                <ng-container matColumnDef="Estado">
-                                    <th mat-header-cell *matHeaderCellDef> Estado </th>
-                                    <td mat-cell *matCellDef="let ticket"> 
-                                        <mat-chip-list aria-label="Status">
-                                            <mat-chip color="warn" selected>{{ticket.status}}</mat-chip>
-                                        </mat-chip-list>
-                                     </td>
-                                </ng-container>
-                                <ng-container matColumnDef="Acciones">
-                                    <th mat-header-cell *matHeaderCellDef> Acciones</th>
-                                    <td mat-cell *matCellDef="let ticket">  </td>
-                                </ng-container>
-            
-                                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            
-                                <tr class="mat-row" *matNoDataRow>
-                                    <td class="mat-cell" colspan="4">No hay tickets por el momento :D</td>
-                                </tr>
-                            </table>
-
-                          </div>
                         </div>
-                    </div>
-                </div>
-            </mat-tab>
+                    </mat-tab>
+                    <mat-tab label="Cerrados">
+                        <div class="example-large-box mat-elevation-z4">
 
-            </mat-tab-group>
+                            <div class="row mt-4">
+                                <div class="card">
+                                <div class="card-body">
+
+                                    <button mat-raised-button [matMenuTriggerFor]="menu3">Ordenar por</button>
+                                        <mat-menu #menu3="matMenu" yPosition="above">
+                                            <button mat-menu-item (click)="applyFilterClosed('Date Up')">Fecha (Ascendente)</button>
+                                            <button mat-menu-item (click)="applyFilterClosed('Date Down')">Fecha (Descendente)</button>
+                                            <button mat-menu-item (click)="applyFilterClosed('Hour Up')">Hora (Ascendente)</button>
+                                            <button mat-menu-item (click)="applyFilterClosed('Hour Down')">Hora (Descendente)</button>
+                                            <button mat-menu-item (click)="applyFilterClosed('Name Up')">Nombre (A - Z)</button>
+                                            <button mat-menu-item (click)="applyFilterClosed('Name Down')">Nombre (Z - A)</button>
+                                        </mat-menu>
+
+                                    <hr>
+
+                                    <table mat-table [dataSource]="closedSource" class="mat-elevation-z8" style="width: 100%;">
+                    
+                                        <ng-container matColumnDef="Fecha">
+                                            <th mat-header-cell *matHeaderCellDef > Fecha </th>
+                                            <td mat-cell *matCellDef="let ticket"> {{ticket.date}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Hora">
+                                            <th mat-header-cell *matHeaderCellDef> Hora </th>
+                                            <td mat-cell *matCellDef="let ticket"> {{ticket.hour}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Usuario">
+                                            <th mat-header-cell *matHeaderCellDef> Usuario </th>
+                                            <td mat-cell *matCellDef="let ticket"> {{ticket.nameUser}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Estado">
+                                            <th mat-header-cell *matHeaderCellDef> Estado </th>
+                                            <td mat-cell *matCellDef="let ticket"> 
+                                                <mat-chip-list aria-label="Status">
+                                                    <mat-chip color="warn" selected>{{ticket.status}}</mat-chip>
+                                                </mat-chip-list>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Acciones">
+                                            <th mat-header-cell *matHeaderCellDef> Acciones</th>
+                                            <td mat-cell *matCellDef="let ticket">  </td>
+                                        </ng-container>
+                    
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    
+                                        <tr class="mat-row" *matNoDataRow>
+                                            <td class="mat-cell" colspan="4">No hay tickets por el momento :D</td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+
+                <span style="display:inline-block; height: 10px;"></span>
             
+            </div>
         </div>
     </div>
-   
-
 </div>
 
