@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService, CurrentUser } from 'src/app/core/services/auth.service';
-import * as moment from 'moment';
 
 import { Organization } from 'src/app/core/models/organization.model';
 
@@ -19,6 +17,8 @@ import { OrganizationService } from 'src/app/core/services/organization.service'
     currentDay:number= new Date().getDay();
     organizationList: Organization[]= [];
     filterList: Organization[]= [];
+
+    lenght: number = 0;
 
     constructor(private _organizationService: OrganizationService, public router: Router,){
 
@@ -39,6 +39,7 @@ import { OrganizationService } from 'src/app/core/services/organization.service'
               ...element.payload.doc.data()
             });
             this.filterList = this.organizationList;
+            this.lenght = this.organizationList.length;
           });
           //console.log(this.organizationList);
         })
@@ -59,4 +60,15 @@ import { OrganizationService } from 'src/app/core/services/organization.service'
       }
       
     }
+
+    searchValue: string = '';
+
+    @Output()
+    searchTextChanged: EventEmitter<string> = new EventEmitter<string>()
+
+    onSearchTextChanged(){
+      this.searchTextChanged.emit(this.searchValue);
+      console.log(this.searchValue);
+    }
+
   }

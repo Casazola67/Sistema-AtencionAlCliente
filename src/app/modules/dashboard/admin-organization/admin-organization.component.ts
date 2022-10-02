@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { MatTableDataSource } from '@angular/material/table';
 import * as moment from 'moment';
 
 import { Organization } from 'src/app/core/models/organization.model';
@@ -26,6 +27,12 @@ export class AdminOrganizationComponent implements OnInit {
     this.businessHours = this.defaultBusinessHours;
    }
 
+   
+  ngOnInit(): void {
+    this.getAllOrganizations();
+    this.setHours();
+  }
+  
   createOrganization(){
     const organizationAux: Organization = {
       name: this.organization.name,
@@ -55,10 +62,11 @@ export class AdminOrganizationComponent implements OnInit {
           ...element.payload.doc.data()
         });
       });
+      this.dataSource = new MatTableDataSource(this.organizationList);
     })
   }
 
-  ////////////////////////////////////////HORARIO PRUEBA/////////////////////////////////////////////////////////////// 
+  //////////////////////////////////////// STEPPER /////////////////////////////////////////////////////////////// 
   hours: string[] = [];
   timeFrom: string = '09:00';
   timeTo: string = '19:00';
@@ -115,8 +123,14 @@ export class AdminOrganizationComponent implements OnInit {
     console.log(this.validation);
   }
 
+  //////////////////////////////////////// TABLE /////////////////////////////////////////////////////////////// 
+  
+  displayedColumns: string[] = ['Nombre', 'Acciones'];
+  dataSource = new MatTableDataSource(this.organizationList);
 
-  //////////// VALIDATORS ///////////
+
+  //////////////////////////////////////// VALIDATORS /////////////////////////////////////////////////////////////// 
+
   public validation= [true, true, true, true, true, true, true];
   public validID : boolean = true;
 
@@ -131,14 +145,6 @@ export class AdminOrganizationComponent implements OnInit {
       }
     });
   }
-
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  ngOnInit(): void {
-    this.getAllOrganizations();
-    this.setHours();
-  }
-  
 
   ////////////////////////////FUNCIONES QUE PUEDEN SER GLOBALES////////////////////////////////////////////////////////
   timeFormat = 'HH:mm';

@@ -1,12 +1,32 @@
 
 <div class="container mt-5">
-    <mat-card  *ngFor="let organization of organizationList">
-        <mat-card-title>{{organization.name}}</mat-card-title>
-        <mat-card-content>
-            <p>This card has divider and indeterminate progress as footer</p>
-        </mat-card-content>
-        <mat-card-actions>
-            <button mat-button (click)="goTo(organization.id)">Visitar</button>
-          </mat-card-actions>
-    </mat-card>
+  
+    <mat-toolbar>
+      <button mat-raised-button style="background-color: #c72c41" > <mat-icon style="color: white">location_city</mat-icon> </button>
+      <span style="display:inline-block; width: 10px;"></span>
+      <div class="col-sm-6">
+          <h1> 
+              <span> Tus Organizaciones </span>
+          </h1>
+      </div>
+    </mat-toolbar>
+
+    <div class="card mt-4" style="background-color: #2d132c; border-radius: 10px;" *ngFor="let organization of organizationList">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-5">
+              <a>
+                <img class="img-fluid rounded mb-3 mb-md-0" src="../../../../assets/img/default.png" alt="">
+              </a>
+            </div>
+            <div class="col-md-7">
+                  <h1 style="color: white" >{{organization.name}}</h1>
+                  <hr style="color: white">
+                  <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="goTo(organization.id)" >Administrar</button>
+            </div>
+          </div>
+        </div>
+    </div>
+    
 </div>
+

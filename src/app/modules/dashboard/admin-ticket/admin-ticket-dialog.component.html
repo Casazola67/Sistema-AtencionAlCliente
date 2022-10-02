@@ -1,35 +1,46 @@
 <h2 mat-dialog-title>Crear Ticket</h2>
+<hr>
+    <mat-dialog-content class="mat-typography">
+        <h4>Fecha</h4>
+        <div>
+            <mat-form-field>
+                <mat-label>DD/MM/YYYY</mat-label>
+                <input matInput 
+                    [matDatepicker]="picker" 
+                    [min]="minDate" [max]="maxDate" 
+                    [value]="selected" 
+                    [(ngModel)]="selected"
+                    disabled>
+                <mat-datepicker #picker disabled="false" ></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="mb-2">
+            <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="picker.open()">Seleccionar Fecha</button>
+        </div>
 
-<mat-dialog-content class="mat-typography">
-    <h4>Fecha</h4>
-    <div>
-        <input matInput 
-        [matDatepicker]="picker" 
-        [min]="minDate" [max]="maxDate" 
-        [value]="selected" 
-        [(ngModel)]="selected"
-        >
-        <mat-datepicker #picker ></mat-datepicker>
-    </div>
-    <div>
-        <button mat-raised-button (click)="picker.open()">Seleccionar Fecha</button>
-    </div>
-    <div>
-        <h4>Hora</h4>
-        <mat-form-field>
-            <mat-label>Seleccione la hora</mat-label>
-            <mat-select [(ngModel)]="ticket.hour">
-              <mat-option *ngFor="let hour of hours" [value]="hour">{{hour}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
-    <div>
-        <mat-label>Nombre Cliente</mat-label>
-        <input type="text" class="form-control" [(ngModel)]="ticket.nameUser" placeholder="Introduzca el Nombre">
-    </div>
-</mat-dialog-content>
+        <hr style="margin-left: 25px ; margin-right: 25px;">
 
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cerrar</button>
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial [disabled]="ticket.nameUser && !ticket.hour" (click)="createTicket()">Añadir Ticket</button>
-</mat-dialog-actions>
+        <div>
+            <h4>Hora</h4>
+            <mat-form-field>
+                <mat-label>Seleccione la hora</mat-label>
+                <mat-select [(ngModel)]="ticket.hour">
+                  <mat-option *ngFor="let hour of hours" [value]="hour">{{hour}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div>
+            <mat-label>Nombre Cliente</mat-label>
+            <input type="text" class="form-control mt-2" [(ngModel)]="ticket.nameUser" placeholder="Introduzca el Nombre">
+        </div> 
+
+        <hr style="margin-left: 25px ; margin-right: 25px;">
+
+    </mat-dialog-content>
+    
+    <mat-dialog-actions class="mt-1" align="end">
+      <button mat-button mat-dialog-close>Cerrar</button>
+      <button mat-button [mat-dialog-close]="true" cdkFocusInitial [disabled]="ticket.nameUser && !ticket.hour" (click)="createTicket()">Añadir Ticket</button>
+    </mat-dialog-actions>
+
