@@ -13,6 +13,7 @@ import { OrganizationService } from 'src/app/core/services/organization.service'
 import { TicketService } from 'src/app/core/services/ticket.service';
 //OTHERS
 import * as moment from 'moment';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-ticket',
@@ -25,6 +26,7 @@ import * as moment from 'moment';
     currentUser= new CurrentUser();
     organization = new Organization();
     editTicket = new Ticket();
+    imageSource: any ="";
 
     currentDay = new Schedule;
     schedule: Schedule [] = [];
@@ -46,6 +48,7 @@ import * as moment from 'moment';
       private organizationService: OrganizationService,
       private snackBar: MatSnackBar,
       private ticketService: TicketService,
+      private sanitizer: DomSanitizer,
       )
     { 
       this.selected = '';
@@ -67,6 +70,7 @@ import * as moment from 'moment';
       ///// Get all organizations
       this.organizationService.getOrganization(ID).subscribe( aux => {
         this.organization = aux;
+        this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.organization.logoBase64}`);
         if(this.organization.schedule){
           this.schedule =this.organization.schedule;
         }

@@ -55,7 +55,7 @@ export class NavbarComponent implements OnInit {
               });
             });
             this.organizationList = this.organizationList.filter((obj) => {
-                return obj.admin?.toString() === this.currentUser.uid;
+                return obj.adminUID?.toString() === this.currentUser.uid;
             });
           })
     }

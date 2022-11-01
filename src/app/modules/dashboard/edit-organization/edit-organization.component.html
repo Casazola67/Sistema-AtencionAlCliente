@@ -1,0 +1,122 @@
+<div class="container mt-5">
+    <div class="row">
+
+        <div class="col-sm-5">
+            <div class="card mt-2">
+                <div class="card-body">
+
+                    <input type="file" accept="image/*" (change)="picked($event)" class="fileInputProfile">
+                    <div class="img-space">
+
+                        <ng-container *ngIf="imageSource; else elseTemplate">
+                            <img [src]="imageSource" />
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <img src="../../../../assets/img/noImage.png" class="img-responsive">
+                        </ng-template>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-7">
+            <div class="card mt-2">
+                <div class="card-body">
+                    <div class="form-group mt-4 mb-3">
+                        <label class="mb-2" for="addon-name">Nombre</label>
+                        <input class="form-control" [(ngModel)]="organization.name" placeholder="{{organization.name}}" aria-describedby="addon-name">
+                    </div>
+                    <div class="form-group mt-4 mb-3">
+                        <label class="mb-2" for="addon-phone">Teléfono</label>
+                        <input class="form-control" [(ngModel)]="organization.phone" placeholder="{{organization.phone}}" aria-describedby="addon-phone">
+                    </div>
+                    <div class="form-group mt-4 mb-3">
+                        <label class="mb-2" for="addon-email">Correo Electronico</label>
+                        <input class="form-control" [(ngModel)]="organization.email" placeholder="{{organization.email}}" aria-describedby="addon-email">
+                    </div>
+                    <div class="form-group mt-4 mb-3">
+                        <button mat-raised-button style="background-color: #c72c41;color:white;">Editar Horario</button>
+                        <span style="display:inline-block; width: 10px;"></span>
+                        <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="openModal(Ubicacion)" >Editar Ubicación</button>
+                    </div>
+                    <hr class="mb-3">  
+                    <div class="form-group mt-4 mb-3">
+                        <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="openModal(Confirmacion)">Actualizar Datos</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<ng-template #Ubicacion let-modal>
+    <div class="modal-body">
+        <div class="card-body p-4 p-sm-5">
+            <h4>Departamento</h4>
+            <div class=" mb-3">
+                <input type="text" 
+                class="form-control" 
+                placeholder="{{organization.state}}" 
+                [(ngModel)]="organization.state"/>
+            </div>
+            <h4>Ciudad</h4>
+            <div class=" mb-3">
+                <input type="text" 
+                class="form-control" 
+                placeholder="{{organization.city}}" 
+                [(ngModel)]="organization.city"
+                required />
+            </div>
+            <h4>Dirección</h4>
+            <div class=" mb-3">
+                <input type="text" 
+                class="form-control" 
+                placeholder="{{organization.adress}}" 
+                [(ngModel)]="organization.adress"
+                required />
+            </div>
+            <h4>Latitud</h4>
+            <div class=" mb-3">
+                <input type="text" 
+                class="form-control" 
+                placeholder="{{organization.latitude}}" 
+                [(ngModel)]="organization.latitude"
+                required />
+            </div>
+            <h4>Longitud</h4>
+            <div class=" mb-3">
+                <input type="text" 
+                class="form-control" 
+                placeholder="{{organization.longitude}}" 
+                [(ngModel)]="organization.longitude"
+                required />
+            </div>
+            <hr class="mb-3">   
+            <div class="mb-3">
+                <div>
+                    <button mat-raised-button class="btn btn-secondary mr-1 mb-1" style="background-color: #c72c41;color:white;" (click)="modal.close()">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+  
+
+<ng-template #Confirmacion let-modal>
+    <div class="modal-body">
+        <div class="card-body p-4 p-sm-5">
+            <h2>¿Deseas actualizar el perfil de tu organización con los datos proporcionados?</h2>
+            <hr class="mb-3">   
+            <div class="mb-3">
+                <div>
+                    <button mat-raised-button class="btn btn-secondary mr-1 mb-1" style="background-color: #c72c41;color:white;" (click)="modal.close()">No, volver</button>
+                    <span style="display:inline-block; width: 10px;"></span>
+                    <button mat-raised-button class="btn btn-secondary mr-1 mb-1"  (click)="updateOrg()">Si, actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

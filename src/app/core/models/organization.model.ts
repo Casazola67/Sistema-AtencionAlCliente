@@ -3,23 +3,44 @@ import { Schedule } from "./schedule.model";
 export class Organization {
 
     id?: string;
-    name?: string;
-    adress?: string;
-    phone?: string;
-    city?: string;
-    admin?: string;
-    partners?: string[];
-    schedule?: Schedule[];
+    name: string;
+    adminUID: string;
+    schedule: Schedule[];
+
+    //////info
+    nit: string;
+    logoBase64!: string;
+    phone: string;
+    email: string;
+
+    //////location
+    state: string;
+    city: string;
+    adress: string;
+    latitude!: string;
+    longitude!: string;
+    
 
     constructor() {
         this.id = '';
         this.name = '';
-        this.adress = '';
-        this.phone = ''; 
-        this.city = '';
-        this.admin = '';
-        this.partners = [];
+        this.adminUID = '';
         this.schedule = [];
+
+        //////info
+        this.nit = '';
+        this.logoBase64= '';
+        this.phone= '';
+        this.email= '';
+
+        //////location
+        this.state = '';
+        this.city= '';
+        this.adress= '';
+        this.latitude= '';
+        this.longitude= '';
+       
+        
 
     }
 }

@@ -7,13 +7,25 @@
   <!--***** MENU 1 *****-->
 
   <button mat-icon-button [matMenuTriggerFor]="menu1">
-    <mat-icon>person</mat-icon>
+
+    <ng-container *ngIf="user.photoURL else elseTemplate">
+      <img src="{{user.photoURL}}" alt="Avatar" style="width: 35px; height: 35px;border-radius: 50%;">
+    </ng-container>
+    <ng-template #elseTemplate>
+      <mat-icon>person</mat-icon>
+    </ng-template>
+
   </button>
 
   <mat-menu #menu1="matMenu">
     <button mat-menu-item disabled *ngIf="currentUser.uid" >
       <mat-icon>person</mat-icon>
       <span>{{user.displayName}}</span>
+    </button>
+    <hr *ngIf="currentUser.uid" >
+    <button mat-menu-item *ngIf="currentUser.uid" (click)="goTo('edit-profile')">
+      <mat-icon>person</mat-icon>
+      <span>Editar Perfil</span>
     </button>
     <button mat-menu-item *ngIf="!currentUser.uid" (click)="goTo('')">
       <mat-icon>power_settings_new</mat-icon>
@@ -41,11 +53,15 @@
     <mat-menu #SuperAdmin="matMenu">
       <button mat-menu-item (click)="goTo('organizations')">
         <mat-icon>lock</mat-icon>
-        <span>Organizacion | Admin</span>
+        <span>Organizaciones</span>
       </button>
       <button mat-menu-item (click)="goTo('users')">
         <mat-icon>lock</mat-icon>
-        <span>Usuarios | Admin</span>
+        <span>Usuarios</span>
+      </button>
+      <button mat-menu-item (click)="goTo('request')">
+        <mat-icon>lock</mat-icon>
+        <span>Solicitudes</span>
       </button>
     </mat-menu>
     <hr *ngIf="currentUser.uid == 'M2224w0b8eMKwPhRgoKd06tE4tH3'">

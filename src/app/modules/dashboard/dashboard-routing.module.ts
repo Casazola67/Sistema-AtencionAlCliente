@@ -8,6 +8,9 @@ import { AdminUserComponent } from './admin-user/admin-user.component';
 import { AdminComponent } from './admin/admin.component';
 import { TicketComponent } from './ticket/ticket.component';
 import { AdminTicketComponent } from './admin-ticket/admin-ticket.component';
+import { RequestComponent } from './request/request.component';
+import { EditOrganizationComponent } from './edit-organization/edit-organization.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 const routes: Routes = [
     {
@@ -20,6 +23,9 @@ const routes: Routes = [
         { path: 'ticket', component: TicketComponent},
         { path: 'admin-org', component: AdminComponent},
         { path: 'admin-ticket', component: AdminTicketComponent},
+        { path: 'request', component: RequestComponent},
+        { path: 'edit-org', component: EditOrganizationComponent},
+        { path: 'edit-profile', component: EditProfileComponent},    
       ]
     }
   ];

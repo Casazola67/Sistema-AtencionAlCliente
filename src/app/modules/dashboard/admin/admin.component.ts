@@ -62,7 +62,7 @@ export class AdminComponent implements OnInit {
                   });
                 });
                 this.organizationList = this.organizationList.filter((obj) => {
-                    return obj.admin?.toString() === this.currentUser.uid;
+                    return obj.adminUID?.toString() === this.currentUser.uid;
                 });
               })
         }
@@ -71,6 +71,10 @@ export class AdminComponent implements OnInit {
 
     goTo(id: any){
         this.router.navigate(['/admin-ticket', {id: id}]);
+    }
+
+    goToEdit(id: any){
+      this.router.navigate(['/edit-org', {id: id}]);
     }
   
 }

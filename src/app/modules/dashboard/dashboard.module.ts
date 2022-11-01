@@ -8,12 +8,15 @@ import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { FooterComponent } from './footer/footer.component';
 import { AdminOrganizationComponent } from './admin-organization/admin-organization.component';
 import { TicketComponent } from './ticket/ticket.component';
 import { AdminUserComponent } from './admin-user/admin-user.component';
 import { AdminComponent } from './admin/admin.component';
 import { AdminTicketComponent, AdminTicketDialog } from './admin-ticket/admin-ticket.component';
-
+import { RequestComponent } from './request/request.component';
+import { EditOrganizationComponent } from './edit-organization/edit-organization.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -45,9 +48,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
         AdminTicketComponent,
         AdminTicketDialog,
         DashboardComponent,
+        FooterComponent,
         HomeComponent,
         NavbarComponent,
         TicketComponent,
+        RequestComponent,
+        EditOrganizationComponent,
+        EditProfileComponent,
     ], 
     imports: [
         CommonModule,

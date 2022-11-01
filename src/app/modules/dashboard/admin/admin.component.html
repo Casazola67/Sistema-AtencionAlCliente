@@ -22,7 +22,9 @@
             <div class="col-md-7">
                   <h1 style="color: white" >{{organization.name}}</h1>
                   <hr style="color: white">
-                  <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="goTo(organization.id)" >Administrar</button>
+                  <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="goTo(organization.id)" >Administrar Tickets</button>
+                  <span style="display:inline-block; width: 10px;"></span>
+                  <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="goToEdit(organization.id)" ><mat-icon>settings</mat-icon></button>
             </div>
           </div>
         </div>

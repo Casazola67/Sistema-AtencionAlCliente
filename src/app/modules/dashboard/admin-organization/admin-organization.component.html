@@ -35,27 +35,111 @@
               <p class="mt-2">ID Gerente</p>
               <div class="input-group mt-4 mb-3">
                 <span class="input-group-text" id="addon-id">ID</span>
-                <input class="form-control" [(ngModel)]="organization.admin" (keyup)="checkIfIDValid($event)" aria-describedby="addon-id">    
+                <input class="form-control" [(ngModel)]="organization.adminUID" (keyup)="checkIfIDValid($event)" aria-describedby="addon-id">    
               </div>
               <p class="alert alert-warning" *ngIf="!validID">Introduce un ID válido</p>
               <div>
                 <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperPrevious>Anterior</button>
+                <span style="display:inline-block; width: 10px;"></span>
+                <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperNext>Siguiente</button>
+              </div>
+            </mat-step>
+
+
+
+            <mat-step>
+              <ng-template matStepLabel>Información</ng-template>
+              <p class="mt-2">Correo Electrónico</p>
+              <div class="input-group mt-4 mb-3">
+                <span class="input-group-text" id="addon-email">@</span>
+                <input class="form-control" type="email" [(ngModel)]="organization.email" placeholder="Ej: ejemplo@gmail.com" aria-describedby="addon-email">
+              </div>
+              <p class="mt-2">Número Telefónico</p>
+              <div class="input-group mt-4 mb-3">
+                <span class="input-group-text" id="addon-phone">+591</span>
+                <input class="form-control"  type="number" [(ngModel)]="organization.phone" placeholder="Ej: 67380060" aria-describedby="addon-phone">
+              </div>
+              <p class="mt-2">Número de Identificación Tributaria</p>
+              <div class="input-group mt-4 mb-3">
+                <span class="input-group-text" id="addon-nit">NIT</span>
+                <input class="form-control"  type="number" [(ngModel)]="organization.nit" placeholder="Ej: 123456789012" aria-describedby="addon-nit">
+              </div>
+              <div>
+                <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperPrevious>Anterior</button>
+                <span style="display:inline-block; width: 10px;"></span>
                 <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperNext>Siguiente</button>
               </div>
             </mat-step>
 
             <mat-step>
+              <ng-template matStepLabel>Logotipo</ng-template>
+              <div class="card mt-2">
+                <div class="card-body">
+                    <input type="file" accept="image/*" (change)="picked($event)" class="fileInputProfile">
+                    <div class="img-space">
+                        <ng-container *ngIf="imageSource; else elseTemplate">
+                            <img [src]="imageSource" />
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <img src="../../../../assets/img/noImage.png" class="img-responsive">
+                        </ng-template>
+                    </div>
+                </div>
+              </div>
+              <div class="mt-2">
+                <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperPrevious>Anterior</button>
+                <span style="display:inline-block; width: 10px;"></span>
+                <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperNext>Siguiente</button>
+              </div>
+            </mat-step>
+
+
+            <mat-step>
               <ng-template matStepLabel>Ubicación</ng-template>
               <div class="input-group mt-4 mb-3">
-                <span class="input-group-text" id="addon-city">Ciudad</span>
-                <input class="form-control" [(ngModel)]="organization.city" placeholder="Ex. Ciudad Gótica" aria-describedby="addon-city">
+                <span class="input-group-text" id="addon-Departamento">Departamento</span>
+                  <input type="text" 
+                  class="form-control" 
+                  [(ngModel)]="organization.state"
+                  aria-describedby="addon-Departamento"/>
               </div>
               <div class="input-group mt-4 mb-3">
-                <span class="input-group-text" id="addon-address">Dirección</span>
-                <input class="form-control" [(ngModel)]="organization.adress" placeholder="Ex. Calle Belgrano #1234" aria-describedby="addon-city">
+                <span class="input-group-text" id="addon-Ciudad">Ciudad</span>
+                  <input type="text" 
+                  class="form-control" 
+                  [(ngModel)]="organization.city"
+                  required 
+                  aria-describedby="addon-Ciudad"/>
+              </div>
+              <div class="input-group mt-4 mb-3">
+                <span class="input-group-text" id="addon-Dirección">Dirección</span>
+                  <input type="text" 
+                  class="form-control" 
+                  [(ngModel)]="organization.adress"
+                  required
+                  aria-describedby="addon-Dirección" />
+              </div>
+              <div class="input-group mt-4 mb-3">
+                <span class="input-group-text" id="addon-Latitud">Latitud</span>
+                  <input  type="number" 
+                  class="form-control" 
+                  [(ngModel)]="organization.latitude"
+                  required
+                  placeholder="Ej: -21.533836"
+                  aria-describedby="addon-Latitud"  />
+              </div>
+              <div class="input-group mt-4 mb-3">
+                <span class="input-group-text" id="addon-Longitud">Longitud</span>
+                  <input  type="number" 
+                  class="form-control" 
+                  [(ngModel)]="organization.longitude"
+                  required
+                  placeholder="Ej: -64.734288"
+                  aria-describedby="addon-Longitud" />
               </div>
               <div>
                 <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperPrevious>Anterior</button>
+                <span style="display:inline-block; width: 10px;"></span>
                 <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperNext>Siguiente</button>
               </div>
             </mat-step>
@@ -122,6 +206,7 @@
               </div>
               <div class="mt-4">
                 <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperPrevious>Anterior</button>
+                <span style="display:inline-block; width: 10px;"></span>
                 <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperNext>Siguiente</button>
               </div>
             </mat-step>
@@ -131,6 +216,7 @@
               <h4>Completa el formulario presionando en "Guardar"</h4>
               <div>
                 <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperPrevious>Anterior</button>
+                <span style="display:inline-block; width: 10px;"></span>
                 <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="createOrganization()" >Guardar</button>
               </div>
             </mat-step>
@@ -164,9 +250,9 @@
             </ng-container>
             <ng-container matColumnDef="Acciones">
 
-                <th mat-header-cell *matHeaderCellDef> Copiar ID </th>
+                <th mat-header-cell *matHeaderCellDef> Acciones </th>
                 <td mat-cell *matCellDef="let organization"> 
-                    <button mat-raised-button style="background-color: #c72c41;color:white;">
+                    <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="goToEdit(organization.id)">
                       <mat-icon> list_alt</mat-icon>
                     </button>
                 </td>                    

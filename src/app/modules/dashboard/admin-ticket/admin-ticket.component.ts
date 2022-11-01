@@ -273,7 +273,7 @@ export class AdminTicketComponent implements OnInit {
     checkIfAdmin(){
         this.currentUser = this.authService.getCurrentUser();
         if(this.currentUser.uid !== 'M2224w0b8eMKwPhRgoKd06tE4tH3' && 
-            this.currentUser.uid !== this.organization.admin){
+            this.currentUser.uid !== this.organization.adminUID){
             this.router.navigate(['/']);
         }
     }
