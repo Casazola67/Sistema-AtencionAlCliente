@@ -9,7 +9,7 @@ export class Organization {
 
     //////info
     nit: string;
-    logoBase64!: string;
+    logoBase64!: any;
     phone: string;
     email: string;
 

@@ -9,6 +9,7 @@ import { OrganizationService } from 'src/app/core/services/organization.service'
 import { AuthService, CurrentUser } from 'src/app/core/services/auth.service';
 import { UserService } from 'src/app/core/services/user.service';
 //OTHERS
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-admin',
@@ -20,6 +21,7 @@ export class AdminComponent implements OnInit {
     currentUser = new CurrentUser();
     organizationList: Organization[]= [];
     userOrganizations: Organization[] = [];
+    imageList: any[] = [];
 
     RouteID: string | null = '';
 
@@ -29,7 +31,7 @@ export class AdminComponent implements OnInit {
         public modalService: NgbModal,
         private authService: AuthService,
         private organizationService: OrganizationService,
-        )
+        private sanitizer: DomSanitizer,)
     {
         
     }

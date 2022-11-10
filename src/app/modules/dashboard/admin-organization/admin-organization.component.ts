@@ -50,7 +50,7 @@ export class AdminOrganizationComponent implements OnInit {
       schedule: this.businessHours,
 
       nit: this.organization.nit,
-      logoBase64: this.organization.logoBase64,
+      logoBase64: this.imageSource,
       phone: this.organization.phone,
       email: this.organization.email,
 
@@ -196,7 +196,8 @@ _handleReaderLoaded(e: any) {
     this.image = base64result;
     this.organization.logoBase64 = base64result;
     this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${base64result}`);
-}   
+    console.log(this.imageSource);
+  }   
 
 
 
