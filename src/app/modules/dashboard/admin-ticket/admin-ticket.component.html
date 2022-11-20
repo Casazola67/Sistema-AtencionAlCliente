@@ -6,12 +6,17 @@
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-5">
-                      <a>
-                        <img class="img-fluid rounded mb-3 mb-md-0" src="../../../../assets/img/default.png" alt="">
-                      </a>
+                    <div class="img-space">
+                        <ng-container *ngIf="organization.logoBase64; else elseTemplate">
+                            <img [src]="imageSource" />
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <img src="../../../../assets/img/noImage.png" class="img-responsive">
+                        </ng-template>
+                    </div>
                     </div>
                     <div class="col-md-7">
-                        <h1 style="color: white">Admin | Tickets </h1>
+                        <h1 style="color: white">Administrador | Tickets </h1>
                         <div class="card-text" style="color: white">{{organization.name}}</div>
                         <hr style="color: white">
                         <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="openDialog()">+ Ticket</button>

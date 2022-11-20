@@ -9,30 +9,63 @@
                 <div class="row">
                   <div class="col-md-5">
                     <a>
-                      <img class="img-fluid rounded mb-3 mb-md-0" src="../../../../assets/img/default.png" alt="">
+                      <ng-container *ngIf="organization.logoBase64; else elseTemplate">
+                        <img class="img-fluid rounded mb-3 mb-md-0" style="text-align: center;" [src]="imageSource" alt="">
+                      </ng-container>
+                      <ng-template #elseTemplate>
+                        <img class="img-fluid rounded mb-3 mb-md-0" src="../../../../assets/img/default.png" alt="">
+                      </ng-template>   
                     </a>
                   </div>
                   <div class="col-md-7">
 
                         <h1 style="color: white" >{{organization.name}}</h1>
-                        <h2 *ngIf="currentDay.open_half; else Cerrado"> 
-                          <mat-chip-list aria-label="openClosed">
-                          <mat-chip style="background-color: white; color: black" selected>Abierto</mat-chip>
-                          </mat-chip-list>
-                        </h2>
+                        <h3 class="my-3" style="color: white" *ngIf="currentDay.open_half; else Cerrado">
+                          <button mat-raised-button style="background-color: white; color: black; border-radius: 50%;" disabled="true"> Abierto</button>
+                          <span style="display:inline-block; width: 10px;"></span>
+                          {{currentDay.from_half}} - {{currentDay.to_half}}
+                        </h3>  
                         <hr style="color: white">
-                        <h3 class="my-3" style="color: white"> 
-                          <button mat-raised-button style="background-color: #2d132c; " disabled> 
-                            <mat-icon style="color: white">location_city</mat-icon> 
-                          </button>
-                          {{organization.city}}
-                        </h3>
-                        <h3 class="my-3" style="color: white"> 
-                          <button mat-raised-button style="background-color: #2d132c; " disabled> 
-                            <mat-icon style="color: white"> my_location</mat-icon>  
-                          </button>
-                          {{organization.city}}
-                        </h3>
+
+                        <div class="row ">
+
+                          <div class="col-md-6">
+                            <h3 class="my-3" style="color: white"> 
+                              <button mat-raised-button style="background-color: #2d132c; " disabled> 
+                                <mat-icon style="color: white">map</mat-icon> 
+                              </button>
+                              {{organization.state}}
+                            </h3>
+                            <h3 class="my-3" style="color: white"> 
+                              <button mat-raised-button style="background-color: #2d132c; " disabled> 
+                                <mat-icon style="color: white">location_city</mat-icon>  
+                              </button>
+                              {{organization.city}}
+                            </h3> 
+                            <h5 class="my-3" style="color: white"> 
+                              <button mat-raised-button style="background-color: #2d132c; " disabled> 
+                                <mat-icon style="color: white">directions</mat-icon>  
+                              </button>
+                              {{organization.adress}}
+                            </h5>   
+                          </div>
+
+                          <div class="col-md-6">
+                            <h5 class="my-3" style="color: white"> 
+                              <button mat-raised-button style="background-color: #2d132c; " disabled> 
+                                <mat-icon style="color: white">email</mat-icon> 
+                              </button>
+                              {{organization.email}}
+                            </h5>
+                            <h3 class="my-3" style="color: white"> 
+                              <button mat-raised-button style="background-color: #2d132c; " disabled> 
+                                <mat-icon style="color: white">local_phone</mat-icon> 
+                              </button>
+                              {{organization.phone}}
+                            </h3>
+                          </div>
+                        </div>
+
                         <hr style="color: white">
                         <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="openModal(Horario)">Ver Horario</button>
                   </div>
@@ -126,9 +159,7 @@
 
 
 <ng-template #Cerrado>
-  <mat-chip-list aria-label="openClosed">
-    <mat-chip style="background-color: #801336;" selected>Cerrado</mat-chip>
-    </mat-chip-list>
+  <button mat-raised-button style="background-color: #801336; color: white; border-radius: 50%;" disabled="true">Cerrado</button>
 </ng-template>
 
 <ng-template #Horario let-modal>
@@ -178,6 +209,9 @@
         
         </mat-card-subtitle>
         <hr style="color: white">
+        <mat-card-actions style="text-align:right">
+          <button mat-raised-button style="background-color: #c72c41;color:white;">Cancelar Ticket</button>
+        </mat-card-actions>
         <mat-card-content>
         </mat-card-content>
       </mat-card>

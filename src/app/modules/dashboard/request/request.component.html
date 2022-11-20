@@ -1,0 +1,71 @@
+
+<div class="container mt-5">
+  
+    <mat-toolbar>
+      <button mat-raised-button style="background-color: #c72c41" > <mat-icon style="color: white">feedback</mat-icon> </button>
+      <span style="display:inline-block; width: 10px;"></span>
+      <div class="col-sm-6">
+          <h1> 
+              <span> Solicitudes </span>
+          </h1>
+      </div>
+    </mat-toolbar>
+
+    <mat-toolbar class="mt-4">
+      <button mat-raised-button [matMenuTriggerFor]="menu">Ordenar por</button>
+      <mat-menu #menu="matMenu" yPosition="above">
+        <button mat-menu-item (click)="applyFilter('Visible')">Mostrar Visibles</button>
+        <button mat-menu-item (click)="applyFilter('Oculto')">Mostrar Ocultos</button>
+      </mat-menu>
+    </mat-toolbar>
+
+    <div class="card mt-4" style="background-color: #2d132c; border-radius: 10px;" *ngFor="let request of filterRequestList; index as i">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-7" style="margin-top: 10px;margin-bottom: 10px;">
+              <div style="margin-left: 20px;">
+                <h1 style="color: white" >Solicitud N°{{i+1}}</h1>
+                <hr style="color: white">
+                <h3 style="color: white">Usuario </h3>
+                <h2 style="color: white" >{{request.nameUser}}</h2>
+                <h3 style="color: white">Nombre de la Organización </h3>
+                <h2 style="color: white" >{{request.nameOrganization}}</h2>
+              </div>
+            </div>
+            <div class="col-md-5" style="text-align: center;">
+              <div style="margin-top: 10px; margin-bottom: 10px;">
+                <h2 style="color: white"> Descargar NIT</h2>
+                <button mat-raised-button 
+                style="background-color: #c72c41;color:white; text-align: center;"
+                (click)="downloadImage(request.nitBase64,1)">
+                  <mat-icon>cloud_download</mat-icon>
+                </button>
+              </div>
+              <div style="margin-top: 10px;margin-bottom: 10px;">
+                <h2 style="color: white"> Descargar Certificado SEPREC</h2>
+                <button mat-raised-button 
+                style="background-color: #c72c41;color:white;"
+                (click)="downloadImage(request.seprecBase64,2)" >
+                <mat-icon>cloud_download</mat-icon>
+              </button>
+              </div> 
+              <div style="margin-top: 10px;margin-bottom: 10px;">
+                <h2 style="color: white"> Más acciones</h2>
+                <button mat-raised-button [matMenuTriggerFor]="menu" style="background-color: #c72c41;color:white;" ><mat-icon>settings</mat-icon></button>
+                
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="buttonAction('close', request)" >
+                    <mat-icon>remove_red_eye</mat-icon>
+                    <span>Ocultar</span>
+                  </button>
+                </mat-menu>
+
+              </div>
+               
+            </div>
+          </div>
+        </div>
+    </div>
+
+</div>
+

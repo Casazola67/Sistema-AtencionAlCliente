@@ -5,6 +5,7 @@ import { Organization } from 'src/app/core/models/organization.model';
 
 import { OrganizationService } from 'src/app/core/services/organization.service';
 
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-home',
@@ -20,8 +21,11 @@ import { OrganizationService } from 'src/app/core/services/organization.service'
 
     lenght: number = 0;
 
-    constructor(private _organizationService: OrganizationService, public router: Router,){
-
+    constructor(
+      private _organizationService: OrganizationService, 
+      public router: Router,
+      private sanitizer: DomSanitizer,)
+    {
     }
 
     
@@ -41,7 +45,12 @@ import { OrganizationService } from 'src/app/core/services/organization.service'
             this.filterList = this.organizationList;
             this.lenght = this.organizationList.length;
           });
-          //console.log(this.organizationList);
+          for(var i = 0; i <= this.organizationList.length; i++){
+            if( this.organizationList[i].logoBase64){
+              const image = this.organizationList[i].logoBase64;
+              this.organizationList[i].logoBase64 = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${image}`)
+            }
+          }
         })
     }
 

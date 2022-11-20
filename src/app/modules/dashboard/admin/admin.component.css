@@ -9,9 +9,11 @@
     border-radius: 8px;
     background-color: #f2f2f2;
     height: auto;
-    width: 100%;
+    width: 75%;
     padding: 10px;
     min-height:175px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .img-space img {

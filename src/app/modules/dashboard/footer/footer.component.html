@@ -1,0 +1,92 @@
+
+    <footer class="footer">
+        <!-- Footer main -->
+        <section class="ft-main">
+          <div class="ft-main-item">
+            <h2 class="ft-title">Sobre nosotros</h2>
+            <ul>
+              <li><a href="#">Servicios</a></li>
+              <li><a href="#">Portafolio</a></li>
+              <li><a href="#">Clientes</a></li>
+            </ul>
+          </div>
+          <div class="ft-main-item">
+            <h2 class="ft-title">Recursos</h2>
+            <ul>
+              <li><a href="#">Docs</a></li>
+              <li><a href="#">eBooks</a></li>
+            </ul>
+          </div>
+          <div class="ft-main-item">
+            <h2 class="ft-title">Contáctanos</h2>
+            <ul>
+              <li><a href="#">Ayuda</a></li>
+            </ul>
+          </div>
+          <div class="ft-main-item">
+            <h2 class="ft-title">Registra tu organización</h2>
+            <p>Solicita el registro de tu organización</p>
+            <button 
+            mat-raised-button 
+            (click)="openModal(Solicitud)"
+            *ngIf="currentUser.uid"
+            >Solicitar</button>
+          </div>
+        </section>
+      
+        <!-- Footer legal -->
+        <section class="ft-legal">
+          <ul class="ft-legal-list">
+            <li><a href="#">Terms &amp; Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li>&copy; 2022 Copyright Sistema de Atención al Cliente</li>
+          </ul>
+        </section>
+      </footer>
+
+
+      <ng-template #Solicitud let-modal>
+
+        <div class="modal-body">
+
+                <div class="card-body p-4 p-sm-5">
+
+                    <h4>Nombre de la Organización</h4>
+                    <div class="form-floating mb-3">
+                        <input type="text" 
+                        class="form-control" 
+                        placeholder="Nombre de la Organización" 
+                        [(ngModel)]="request.nameOrganization"
+                        #userEmail required />
+                        <label for="userEmail">Introduzca el nombre</label>
+                    </div>
+                    <h4>Fotografia NIT de la Organización</h4>
+                    <div class="form-floating mb-3">
+                        <input type="file" (change)="picked($event, 1)">
+                    </div>
+                    <h4>Fotografia Certificado SEPREC</h4>
+                    <div class="form-floating mb-3">
+                        <input type="file" (change)="picked($event, 2)">
+                    </div>
+
+                    <hr class="mb-3">
+                    
+                    <div class="form-floating mb-3">
+
+                        <div>
+                            <button mat-raised-button 
+                            style="background-color: #801336; color: white;" 
+                            [disabled]="!request.nameOrganization|| !request.nitBase64 || !request.seprecBase64"
+                            (click)="createRequest()"
+                            >Enviar Solicitud</button>
+                            <span style="display:inline-block; width: 10px;"></span>
+                            <button mat-raised-button class="btn btn-secondary mr-1 mb-1" (click)="modal.close()">Cancelar</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+        </div>
+      </ng-template>
+      

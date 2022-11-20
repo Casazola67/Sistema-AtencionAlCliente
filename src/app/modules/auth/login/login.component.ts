@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit {
   password: string = ""; 
   userSigned = new Subscription();
 
+  validator: boolean = false;
+
   constructor( public authService : AuthService, public router: Router, ) {}
 
   ngOnInit(){
@@ -29,15 +31,24 @@ export class LoginComponent implements OnInit {
     this.router.navigate(["/dashboard"]);
   }
 
+  public validate(){
+    if(this.email == '' || this.password == ''){
+    this.validator = false;
+    }else{
+      this.validator = true;
+    }
+  }
 
   login(){
     const email = this.email;
     const password = this.password;
     this.authService.SignIn(email, password).pipe()
     .subscribe(() => {
-      this.router.navigate(['/dashboard']);
+      if(this.authService.isLoggedIn()){
+        this.router.navigate(['/dashboard']);
+      }
+      else(window.alert('Ingrese un correo electrónico o contraseña válida'))
     });
   }
-
   
 }

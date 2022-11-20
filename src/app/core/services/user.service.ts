@@ -6,6 +6,7 @@ import { User } from '../models/user.model';
 @Injectable({
   providedIn: 'root'
 })
+
 export class UserService {
 
   constructor(private firebase: AngularFirestore) { }
@@ -21,4 +22,13 @@ export class UserService {
   getUser(id:any): Observable<any>{
     return this.firebase.collection('users').doc(id).valueChanges();
   }
+
+  getUserByEmail(email:any): Observable<any>{
+    return this.firebase.collection('users').doc(email).valueChanges();
+  }
+
+  updateUser(id: string, user: User): Promise<any>{
+    return this.firebase.collection('users').doc(id).update(user);
+  }
+
 }

@@ -1,13 +1,18 @@
+// ANGULAR & BOOTSTRAP
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MatTableDataSource } from '@angular/material/table';
+import { AngularFirestore  } from '@angular/fire/compat/firestore';
 import * as moment from 'moment';
-
+// MODELS
 import { Organization } from 'src/app/core/models/organization.model';
 import { Schedule } from 'src/app/core/models/schedule.model';
-
+// SERVICES
 import { OrganizationService } from 'src/app/core/services/organization.service';
 import { UserService } from 'src/app/core/services/user.service';
+//OTHERS
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-admin-organization',
@@ -19,10 +24,19 @@ export class AdminOrganizationComponent implements OnInit {
   organization= new Organization();  
   organizationList: Organization[]= [];
 
+  image: string = '';
+  imageSource: any = '';
+
+  validator: boolean = false;
+
   constructor(
+    public route: ActivatedRoute, 
+    public router: Router, 
     public modalService: NgbModal, 
-    private _organizationService: OrganizationService,
-    private userService: UserService 
+    public organizationService: OrganizationService,
+    private userService: UserService,
+    private sanitizer: DomSanitizer,
+    private firebase: AngularFirestore,
     ) {
     this.businessHours = this.defaultBusinessHours;
    }
@@ -34,15 +48,26 @@ export class AdminOrganizationComponent implements OnInit {
   }
   
   createOrganization(){
+    const uid = this.firebase.createId()
     const organizationAux: Organization = {
+      uid: uid,
+      adminUID: this.organization.adminUID,
       name: this.organization.name,
-      admin: this.organization.admin,
-      adress: this.organization.adress,
-      city: this.organization.city,
-      phone: this.organization.phone,
       schedule: this.businessHours,
+
+      nit: this.organization.nit,
+      logoBase64: this.image,
+      phone: this.organization.phone,
+      email: this.organization.email,
+
+      state: this.organization.state,
+      city: this.organization.city,
+      adress: this.organization.adress,
+      latitude: this.organization.latitude,
+      longitude: this.organization.longitude
+      
     }
-    this._organizationService.createOrganization(organizationAux).then(() => {
+    this.organizationService.createOrganization(organizationAux).then(() => {
       console.log('Organization created')
     }, error => {
       console.log(error);
@@ -50,11 +75,11 @@ export class AdminOrganizationComponent implements OnInit {
   }
 
   deleteOrganization(organizationID: any){
-    this._organizationService.deleteOrganization(organizationID);
+    this.organizationService.deleteOrganization(organizationID);
   }
 
   getAllOrganizations(){
-    this._organizationService.getAllOrganizations().subscribe(doc =>{
+    this.organizationService.getAllOrganizations().subscribe(doc =>{
       this.organizationList = [];
       doc.forEach((element:any) => {
         this.organizationList.push({
@@ -120,7 +145,14 @@ export class AdminOrganizationComponent implements OnInit {
     else{
       this.validation[i] = false; 
     }
-    console.log(this.validation);
+
+    if(this.allAreTrue(this.validation) == true){
+      this.validSchedule = true;
+      this.validate();
+    }else {
+      this.validSchedule = false;
+      this.validate();
+    }
   }
 
   //////////////////////////////////////// TABLE /////////////////////////////////////////////////////////////// 
@@ -132,19 +164,69 @@ export class AdminOrganizationComponent implements OnInit {
   //////////////////////////////////////// VALIDATORS /////////////////////////////////////////////////////////////// 
 
   public validation= [true, true, true, true, true, true, true];
-  public validID : boolean = true;
+  public allAreTrue(arr : Boolean[]){
+    return arr.every(element => element === true);
+  }
+  public validSchedule: boolean = true;
+  public validID : boolean = false;
 
   public checkIfIDValid(event: any){
-    //console.log(event.target.value);
+    this.validate();
     this.userService.getUser(event.target.value).subscribe( aux =>{
       if(aux){
-        console.log(aux.uid);
         this.validID = true;
       }else{
         this.validID = false;
       }
     });
   }
+
+  public validate(){
+    if(this.organization.name == '' || this.organization.adminUID == '' || this.validSchedule == false ){
+    this.validator = false;
+    console.log(this.validator);
+    }else{
+      this.validator = true;
+    console.log(this.validator);
+    }
+  }
+  
+  //////////////////////////// BASE64 ////////////////////////////////////////////////////////
+
+  picked(event: any) {
+        
+    let fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+        const file: File = fileList[0];
+        this.handleInputChange(file); //turn into base64
+    }
+    else {
+      alert("No file selected");
+    }
+    
+}
+
+handleInputChange(files: any) {
+    var file = files;
+    var pattern = /image-*/;
+    var reader = new FileReader();
+    if (!file.type.match(pattern)) {
+      alert('invalid format');
+      return;
+    }
+    reader.onloadend = this._handleReaderLoaded.bind(this);
+    reader.readAsDataURL(file);
+}
+_handleReaderLoaded(e: any) {
+    let reader = e.target;
+    var base64result = reader.result.substr(reader.result.indexOf(',') + 1);
+    this.image = base64result;
+    this.organization.logoBase64 = base64result;
+    this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${base64result}`);
+    console.log(this.image);
+  }   
+
+
 
   ////////////////////////////FUNCIONES QUE PUEDEN SER GLOBALES////////////////////////////////////////////////////////
   timeFormat = 'HH:mm';
@@ -161,5 +243,8 @@ export class AdminOrganizationComponent implements OnInit {
       }
     }
   }
-    
+
+  goToEdit(id: any){
+    this.router.navigate(['/edit-org', {id: id}]);
+  }
 }

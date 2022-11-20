@@ -1,0 +1,75 @@
+<div class="container mt-5">
+    <div class="row">
+
+        <div class="col-sm-5">
+            <div class="card mt-2">
+                <div class="card-body">
+                    <input type="file" accept="image/*" (change)="picked($event)" class="fileInputProfile">
+                    <div class="img-space">
+                        <ng-container *ngIf="user.photoURL; else elseTemplate">
+                            <img [src]="user.photoURL" />
+                        </ng-container>
+                        <ng-template #elseTemplate>
+                            <img src="../../../../assets/img/noImage.png" class="img-responsive">
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-7">
+            <div class="card mt-2">
+                <div class="card-body">
+                    <div class="form-group mt-4 mb-3">
+                        <label class="mb-2" for="addon-email">Correo Electrónico</label>
+                        <input class="form-control" placeholder="{{user.email}}" aria-describedby="addon-email" disabled>
+                    </div>
+                    <div class="form-group mt-4 mb-3">
+                        <label class="mb-2" for="addon-alias">Alias</label>
+                        <input class="form-control" [(ngModel)]="user.displayName" placeholder="{{user.displayName}}" aria-describedby="addon-alias">
+                    </div>
+                    <div class="form-group mt-4 mb-3">
+                        <label class="mb-2" for="addon-name">Nombres</label>
+                        <ng-container *ngIf="user.name; else elseTemplate1">
+                            <input class="form-control" [(ngModel)]="user.name" placeholder="{{user.name}}" aria-describedby="addon-name">
+                        </ng-container>
+                        <ng-template #elseTemplate1>
+                            <input class="form-control" [(ngModel)]="user.name" placeholder="Ingrese su nombre (Opcional)" aria-describedby="addon-name">
+                        </ng-template>
+                    </div>
+                    <div class="form-group mt-4 mb-3">
+                        <label class="mb-2" for="addon-lastName">Apellidos</label>
+                        <ng-container *ngIf="user.lastName; else elseTemplate2">
+                            <input class="form-control" [(ngModel)]="user.lastName" placeholder="{{user.lastName}}" aria-describedby="addon-lastName">
+                        </ng-container>
+                        <ng-template #elseTemplate2>
+                            <input class="form-control" [(ngModel)]="user.lastName" placeholder="Ingrese sus apellidos (Opcional)" aria-describedby="addon-lastName">
+                        </ng-template>
+                    </div>
+                    <hr class="mb-3">  
+                    <div class="form-group mt-4 mb-3">
+                        <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="openModal(Confirmacion)">Actualizar Datos</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<ng-template #Confirmacion let-modal>
+    <div class="modal-body">
+        <div class="card-body p-4 p-sm-5">
+            <h2>¿Deseas actualizar su perfil con los datos proporcionados?</h2>
+            <hr class="mb-3">   
+            <div class="mb-3">
+                <div>
+                    <button mat-raised-button class="btn btn-secondary mr-1 mb-1" style="background-color: #c72c41;color:white;" (click)="modal.close()">No, volver</button>
+                    <span style="display:inline-block; width: 10px;"></span>
+                    <button mat-raised-button class="btn btn-secondary mr-1 mb-1"  (click)="updateProfile()">Si, actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
