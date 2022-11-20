@@ -11,8 +11,8 @@ export class OrganizationService {
 
   constructor( private firebase: AngularFirestore ) { }
 
-  createOrganization( organization: Organization ): Promise<any>{
-    return this.firebase.collection('organization').add(organization);
+  createOrganization( organization: Organization ){
+    return this.firebase.collection('organization').doc(organization.uid).set(organization);
   }
 
   deleteOrganization(organizationID: string): Promise<any> {

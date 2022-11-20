@@ -2,7 +2,7 @@ import { Schedule } from "./schedule.model";
 
 export class Organization {
 
-    id?: string;
+    uid: string;
     name: string;
     adminUID: string;
     schedule: Schedule[];
@@ -22,7 +22,7 @@ export class Organization {
     
 
     constructor() {
-        this.id = '';
+        this.uid = '';
         this.name = '';
         this.adminUID = '';
         this.schedule = [];

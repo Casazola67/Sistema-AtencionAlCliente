@@ -29,10 +29,7 @@ export class EditOrganizationComponent implements OnInit {
         public modalService: NgbModal,
         private authService: AuthService,
         private organizationService: OrganizationService,
-        private sanitizer: DomSanitizer,)
-    {
-
-    }
+        private sanitizer: DomSanitizer,){ }
 
     ngOnInit(): void {
         this.currentUser = this.authService.getCurrentUser();
@@ -43,6 +40,7 @@ export class EditOrganizationComponent implements OnInit {
     private init(ID : any){
         this.organizationService.getOrganization(ID).subscribe( aux => {
             this.organization = aux;
+            this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.organization.logoBase64}`);
             if(this.organization.logoBase64){
                 this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.organization.logoBase64}`);
             }
@@ -53,7 +51,7 @@ export class EditOrganizationComponent implements OnInit {
 
     updateOrg(){
         const aux = this.organization;
-        this.organizationService.editOrganization(aux.id!, aux);
+        this.organizationService.editOrganization(aux.uid, aux);
     }
 
     //////////////////////////// BASE64 ////////////////////////////////////////////////////////
@@ -87,6 +85,7 @@ export class EditOrganizationComponent implements OnInit {
         let reader = e.target;
         var base64result = reader.result.substr(reader.result.indexOf(',') + 1);
         this.image = base64result;
+        this.organization.logoBase64 = base64result;
         this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${base64result}`);
     }   
 

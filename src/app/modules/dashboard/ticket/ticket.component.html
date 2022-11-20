@@ -10,7 +10,7 @@
                   <div class="col-md-5">
                     <a>
                       <ng-container *ngIf="organization.logoBase64; else elseTemplate">
-                        <img class="img-fluid rounded mb-3 mb-md-0" [src]="imageSource" alt="">
+                        <img class="img-fluid rounded mb-3 mb-md-0" style="text-align: center;" [src]="imageSource" alt="">
                       </ng-container>
                       <ng-template #elseTemplate>
                         <img class="img-fluid rounded mb-3 mb-md-0" src="../../../../assets/img/default.png" alt="">

@@ -14,6 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 @Component({
     selector: 'app-admin',
     templateUrl: './admin.component.html',
+    styleUrls: ['./admin.component.css']
   })
 
 export class AdminComponent implements OnInit {
@@ -21,7 +22,6 @@ export class AdminComponent implements OnInit {
     currentUser = new CurrentUser();
     organizationList: Organization[]= [];
     userOrganizations: Organization[] = [];
-    imageList: any[] = [];
 
     RouteID: string | null = '';
 
@@ -38,7 +38,6 @@ export class AdminComponent implements OnInit {
     ngOnInit(): void {
         this.currentUser = this.authService.getCurrentUser();
         this.initOrganizations();
-        
     }
 
     initOrganizations(){
@@ -49,10 +48,18 @@ export class AdminComponent implements OnInit {
                 doc.forEach((element:any) => {
                   this.organizationList.push({
                     id: element.payload.doc.id,
+                    //logoBase64: this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${element.payload.doc.logoBase64}`),
                     ...element.payload.doc.data()
                   });
                 });
+                for(var i = 0; i <= this.organizationList.length; i++){
+                  if( this.organizationList[i].logoBase64){
+                    const image = this.organizationList[i].logoBase64;
+                    this.organizationList[i].logoBase64 = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${image}`)
+                  }
+                }
               })
+
         }
         else{
             this.organizationService.getAllOrganizations().subscribe(doc =>{

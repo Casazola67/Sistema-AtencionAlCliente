@@ -23,8 +23,9 @@
               <ng-template matStepLabel>Nombre</ng-template>
               <div class="input-group mt-4 mb-3">
                 <span class="input-group-text" id="addon-name">Nombre</span>
-                <input class="form-control" [(ngModel)]="organization.name" placeholder="Ej: Peluquería Lex Luthor" aria-describedby="addon-name">
+                <input class="form-control" [(ngModel)]="organization.name" (keyup)="validate()" placeholder="Ej: Peluquería Lex Luthor" aria-describedby="addon-name">
               </div>
+              <p class="alert alert-warning" *ngIf="!organization.name">Introduce un nombre</p>
               <div>
                 <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperNext>Siguiente</button>
               </div>
@@ -204,6 +205,7 @@
                   </div>
                 </div>
               </div>
+              <p class="alert alert-warning" *ngIf="validSchedule == false">El horario establecido cuenta con algunos errores, verifique e intente nuevamente</p>
               <div class="mt-4">
                 <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperPrevious>Anterior</button>
                 <span style="display:inline-block; width: 10px;"></span>
@@ -214,10 +216,11 @@
             <mat-step>
               <ng-template matStepLabel>Completado</ng-template>
               <h4>Completa el formulario presionando en "Guardar"</h4>
+              <p class="alert alert-warning" *ngIf="!validator">El formulario cuenta con algunos errores, verifique e intente nuevamente</p>
               <div>
                 <button mat-raised-button style="background-color: #c72c41;color:white;" matStepperPrevious>Anterior</button>
                 <span style="display:inline-block; width: 10px;"></span>
-                <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="createOrganization()" >Guardar</button>
+                <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="createOrganization()" [disabled]="!validator">Guardar</button>
               </div>
             </mat-step>
 
@@ -252,7 +255,7 @@
 
                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
                 <td mat-cell *matCellDef="let organization"> 
-                    <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="goToEdit(organization.id)">
+                    <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="goToEdit(organization.uid)">
                       <mat-icon> list_alt</mat-icon>
                     </button>
                 </td>                    

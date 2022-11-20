@@ -12,10 +12,12 @@ import { OrganizationService } from 'src/app/core/services/organization.service'
 import { AuthService, CurrentUser } from 'src/app/core/services/auth.service';
 import { TicketService } from 'src/app/core/services/ticket.service';
 //OTHERS
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-admin-ticket',
     templateUrl: './admin-ticket.component.html',
+    styleUrls: ['./admin-ticket.component.css'],
     providers: [],
   })
 
@@ -39,7 +41,9 @@ export class AdminTicketComponent implements OnInit {
     ////////// Other //////////
     displayedColumns: string[] = ['Fecha', 'Hora', 'Usuario', 'Estado', 'Acciones'];
     currentUser= new CurrentUser();
-   
+    image: string = '';
+    imageSource: any = '';
+
     constructor(
         public route: ActivatedRoute, 
         public router: Router, 
@@ -47,7 +51,8 @@ export class AdminTicketComponent implements OnInit {
         public dialog: MatDialog,
         private authService: AuthService,
         private organizationService: OrganizationService,
-        private ticketService: TicketService,){}
+        private ticketService: TicketService,
+        private sanitizer: DomSanitizer){}
 
     ngOnInit(): void {
         const RouteID = this.route.snapshot.paramMap.get('id');
@@ -57,6 +62,9 @@ export class AdminTicketComponent implements OnInit {
     private init(ID : any){
         this.organizationService.getOrganization(ID).subscribe( aux => {
             this.organization = aux;
+            if(this.organization.logoBase64){
+                this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.organization.logoBase64}`);
+            }
             this.checkIfAdmin();
         });
         this.ticketService.getAllTickets(ID).subscribe(doc => {

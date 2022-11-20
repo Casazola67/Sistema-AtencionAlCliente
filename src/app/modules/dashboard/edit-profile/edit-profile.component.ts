@@ -22,7 +22,9 @@ export class EditProfileComponent implements OnInit {
 
     currentUser= new CurrentUser();
     user = new User();
-    
+    image: string = '';
+    imageSource: any = '';
+
     constructor(
         public route: ActivatedRoute,
         public modalService: NgbModal,
@@ -44,6 +46,9 @@ export class EditProfileComponent implements OnInit {
         if(uid){
           this.authService.getUser(this.currentUser.uid).subscribe( obj => {
             this.user = obj;
+            if(this.user.photoURL){
+              this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.user.photoURL}`);
+            }
           });
         }else{
           this.user = {
@@ -57,6 +62,40 @@ export class EditProfileComponent implements OnInit {
         const aux = this.user;
         this.userService.updateUser(aux.uid!, aux);
     }
+
+    //////////////////////////// BASE64 ////////////////////////////////////////////////////////
+
+    picked(event: any) {
+        
+      let fileList: FileList = event.target.files;
+      if (fileList.length > 0) {
+          const file: File = fileList[0];
+          this.handleInputChange(file); //turn into base64
+      }
+      else {
+        alert("No file selected");
+      }
+      
+  }
+
+  handleInputChange(files: any) {
+      var file = files;
+      var pattern = /image-*/;
+      var reader = new FileReader();
+      if (!file.type.match(pattern)) {
+        alert('invalid format');
+        return;
+      }
+      reader.onloadend = this._handleReaderLoaded.bind(this);
+      reader.readAsDataURL(file);
+  }
+  _handleReaderLoaded(e: any) {
+      let reader = e.target;
+      var base64result = reader.result.substr(reader.result.indexOf(',') + 1);
+      this.image = base64result;
+      this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${base64result}`);
+  }   
+
 
 //////////////////////////// MODAL ////////////////////////////////////////////////////////
     openModal(content:any){

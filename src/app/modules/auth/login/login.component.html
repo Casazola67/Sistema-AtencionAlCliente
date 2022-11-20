@@ -7,16 +7,16 @@
           <h5 class="card-title text-center mb-5 fw-light fs-5 text-uppercase fw-bold">Iniciar Sesión</h5>
 
             <div class="form-floating mb-3">
-              <input type="email" class="form-control" id="email" placeholder="Email address" [(ngModel)]="email" #userName required>
+              <input type="email" class="form-control" id="email" placeholder="Email address" (keyup)="validate()" [(ngModel)]="email" #userName required>
               <label for="email">Ejemplo: alguien@gmail.com</label>
             </div>
             <div class="form-floating mb-3">
-              <input type="password" id="Password" class="form-control" placeholder="Password" [(ngModel)]="password" #userPassword required>
+              <input type="password" id="Password" class="form-control" placeholder="Password" (keyup)="validate()" [(ngModel)]="password" #userPassword required>
               <label for="Password">Contraseña</label>
             </div>
 
             <div class="d-grid">
-              <input type="button" class="btn btn-primary btn-login text-uppercase fw-bold" value="Iniciar Sesión" (click)="login()">
+              <input type="button" class="btn btn-primary btn-login text-uppercase fw-bold" value="Iniciar Sesión" (click)="login()" [disabled]="!validator">
             </div>
             
             <hr class="my-4">

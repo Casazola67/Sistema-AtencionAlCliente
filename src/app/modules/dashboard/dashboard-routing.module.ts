@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
+import { SuperAdminGuard } from 'src/app/core/services/superadmin-guard.service';
+import { AdminGuard } from 'src/app/core/services/admin-guard.service';
 import { DashboardComponent } from './dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { AdminOrganizationComponent } from './admin-organization/admin-organization.component';
@@ -18,13 +19,13 @@ const routes: Routes = [
       component: DashboardComponent,
       children: [
         { path: '', component: HomeComponent},
-        { path: 'organizations', component: AdminOrganizationComponent},
-        { path: 'users', component: AdminUserComponent },
+        { path: 'organizations', component: AdminOrganizationComponent, canActivate:[SuperAdminGuard]},
+        { path: 'users', component: AdminUserComponent, canActivate:[SuperAdminGuard] },
         { path: 'ticket', component: TicketComponent},
-        { path: 'admin-org', component: AdminComponent},
-        { path: 'admin-ticket', component: AdminTicketComponent},
-        { path: 'request', component: RequestComponent},
-        { path: 'edit-org', component: EditOrganizationComponent},
+        { path: 'admin-org', component: AdminComponent, canActivate:[AdminGuard]},
+        { path: 'admin-ticket', component: AdminTicketComponent, canActivate:[AdminGuard]},
+        { path: 'request', component: RequestComponent, canActivate:[SuperAdminGuard]},
+        { path: 'edit-org', component: EditOrganizationComponent, canActivate:[AdminGuard]},
         { path: 'edit-profile', component: EditProfileComponent},    
       ]
     }

@@ -69,6 +69,9 @@ export class AuthService {
       const uid = (response !== null && response !== undefined) ? response.user.uid : '';
       this.setUserData(uid);
       })
+      .catch((error) => {
+        window.alert('Ingrese un correo electrónico o una contraseña válida');
+      })
     );
    }
 
@@ -123,9 +126,6 @@ export class AuthService {
         //this.LoggedIn = true;
         this.setGoogleUserData(result.user);
       })
-      .catch((error) => {
-        window.alert(error);
-      });
   }
  
   ///// Obtener los datos del usuario logueado mediante Google| Get Google user data /////

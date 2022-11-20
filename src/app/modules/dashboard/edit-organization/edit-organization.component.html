@@ -7,8 +7,7 @@
 
                     <input type="file" accept="image/*" (change)="picked($event)" class="fileInputProfile">
                     <div class="img-space">
-
-                        <ng-container *ngIf="imageSource; else elseTemplate">
+                        <ng-container *ngIf="organization.logoBase64; else elseTemplate">
                             <img [src]="imageSource" />
                         </ng-container>
                         <ng-template #elseTemplate>

@@ -17,14 +17,13 @@ export class RegisterComponent {
   password: string = '';
   displayName: string = '';
   
+  validator: boolean = false;
+
 
   constructor( public authService : AuthService, private userService: UserService, public router: Router )  {}
 
   ngOnInit(){
 
-  }
-  private goToDashboard(){
-    this.router.navigate(["/dashboard"]);
   }
 
   public register() {
@@ -33,11 +32,13 @@ export class RegisterComponent {
     this.authService.SignUp(this.email, this.password)
     .pipe(
       switchMap(({ user:{uid} }) =>
-      this.userService.addUser({uid, email, displayName})
+      this.userService.addUser({uid, email, displayName}
+        )
       ))
       .subscribe(() => {
         this.router.navigate(['/']);
       });
+      
     /*this.userService.createUser(this.user).then(() => {
       console.log('User registered')
     }, error => {
@@ -45,5 +46,14 @@ export class RegisterComponent {
     });
     */
   }
+
+  public validate(){
+    if(this.email == '' || this.password == '' || this.displayName == ''){
+    this.validator = false;
+    }else{
+      this.validator = true;
+    }
+  }
+
 
 }

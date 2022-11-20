@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MatTableDataSource } from '@angular/material/table';
+import { AngularFirestore  } from '@angular/fire/compat/firestore';
 import * as moment from 'moment';
 // MODELS
 import { Organization } from 'src/app/core/models/organization.model';
@@ -26,6 +27,8 @@ export class AdminOrganizationComponent implements OnInit {
   image: string = '';
   imageSource: any = '';
 
+  validator: boolean = false;
+
   constructor(
     public route: ActivatedRoute, 
     public router: Router, 
@@ -33,6 +36,7 @@ export class AdminOrganizationComponent implements OnInit {
     public organizationService: OrganizationService,
     private userService: UserService,
     private sanitizer: DomSanitizer,
+    private firebase: AngularFirestore,
     ) {
     this.businessHours = this.defaultBusinessHours;
    }
@@ -44,13 +48,15 @@ export class AdminOrganizationComponent implements OnInit {
   }
   
   createOrganization(){
+    const uid = this.firebase.createId()
     const organizationAux: Organization = {
+      uid: uid,
       adminUID: this.organization.adminUID,
       name: this.organization.name,
       schedule: this.businessHours,
 
       nit: this.organization.nit,
-      logoBase64: this.imageSource,
+      logoBase64: this.image,
       phone: this.organization.phone,
       email: this.organization.email,
 
@@ -139,7 +145,14 @@ export class AdminOrganizationComponent implements OnInit {
     else{
       this.validation[i] = false; 
     }
-    console.log(this.validation);
+
+    if(this.allAreTrue(this.validation) == true){
+      this.validSchedule = true;
+      this.validate();
+    }else {
+      this.validSchedule = false;
+      this.validate();
+    }
   }
 
   //////////////////////////////////////// TABLE /////////////////////////////////////////////////////////////// 
@@ -151,19 +164,33 @@ export class AdminOrganizationComponent implements OnInit {
   //////////////////////////////////////// VALIDATORS /////////////////////////////////////////////////////////////// 
 
   public validation= [true, true, true, true, true, true, true];
-  public validID : boolean = true;
+  public allAreTrue(arr : Boolean[]){
+    return arr.every(element => element === true);
+  }
+  public validSchedule: boolean = true;
+  public validID : boolean = false;
 
   public checkIfIDValid(event: any){
-    //console.log(event.target.value);
+    this.validate();
     this.userService.getUser(event.target.value).subscribe( aux =>{
       if(aux){
-        console.log(aux.uid);
         this.validID = true;
       }else{
         this.validID = false;
       }
     });
   }
+
+  public validate(){
+    if(this.organization.name == '' || this.organization.adminUID == '' || this.validSchedule == false ){
+    this.validator = false;
+    console.log(this.validator);
+    }else{
+      this.validator = true;
+    console.log(this.validator);
+    }
+  }
+  
   //////////////////////////// BASE64 ////////////////////////////////////////////////////////
 
   picked(event: any) {
@@ -196,7 +223,7 @@ _handleReaderLoaded(e: any) {
     this.image = base64result;
     this.organization.logoBase64 = base64result;
     this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${base64result}`);
-    console.log(this.imageSource);
+    console.log(this.image);
   }   
 
 

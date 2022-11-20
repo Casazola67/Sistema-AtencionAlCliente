@@ -14,22 +14,22 @@
     <div class="card mt-4" style="background-color: #2d132c; border-radius: 10px;" *ngFor="let organization of organizationList">
         <div class="card-body">
           <div class="row">
-            <div class="col-md-5">
-              <a>
+            <div class="col-md-5" style="text-align:center"> 
+              <div class="img-space">
                 <ng-container *ngIf="organization.logoBase64; else elseTemplate">
-                  <img class="img-fluid rounded mb-3 mb-md-0" src="data:image/jpeg;base64, {{organization.logoBase64}}" alt="Red dot">
+                  <img [src]="organization.logoBase64"/>
                 </ng-container>
                 <ng-template #elseTemplate>
-                  <img class="img-fluid rounded mb-3 mb-md-0" src="../../../../assets/img/default.png" alt="">
-                </ng-template>   
-              </a>
+                    <img src="../../../../assets/img/noImage.png" class="img-responsive">
+                </ng-template>
+              </div>
             </div>
             <div class="col-md-7">
                   <h1 style="color: white" >{{organization.name}}</h1>
                   <hr style="color: white">
-                  <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="goTo(organization.id)" >Administrar Tickets</button>
+                  <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="goTo(organization.uid)" >Administrar Tickets</button>
                   <span style="display:inline-block; width: 10px;"></span>
-                  <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="goToEdit(organization.id)" ><mat-icon>settings</mat-icon></button>
+                  <button mat-raised-button style="background-color: #c72c41;color:white;" (click)="goToEdit(organization.uid)" ><mat-icon>settings</mat-icon></button>
             </div>
           </div>
         </div>

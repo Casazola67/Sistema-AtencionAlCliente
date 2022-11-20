@@ -11,20 +11,24 @@
 
 <div class="row" style="padding: 16px;">
     <ng-container *ngFor="let organization of organizationList">
-        <div class="col-sm-4" *ngIf="searchValue === '' 
+        <div class="col-sm-2" *ngIf="searchValue === '' 
         || organization.name!.toLowerCase().includes(searchValue)
         || organization.name!.includes(searchValue) ">
 
                 <div class="card" style="margin-top:20px;">
                     <div class="card-image">
-                        <img src="../../../../assets/img/default.png" alt="Organization photo">
+                        <ng-container *ngIf="organization.logoBase64; else elseTemplate">
+                            <img [src]="organization.logoBase64"/>
+                          </ng-container>
+                          <ng-template #elseTemplate>
+                            <img src="../../../../assets/img/default.png" alt="Organization photo">
+                          </ng-template>
                     </div>
                     <div class="card-body">
-                        <h1 class="card-title">{{organization.name}}</h1>
-                        <div class="card-text text-black-50">{{organization.city}}</div>
+                        <h1 class="card-title" style="text-align:center ;">{{organization.name}}</h1>
                         <hr>
                         <section class="pull-right" align="left">
-                            <button mat-raised-button (click)="goTo(organization.id)">Visitar</button>
+                            <button mat-raised-button (click)="goTo(organization.uid)">Visitar</button>
                         </section>
                     </div>
                 </div>

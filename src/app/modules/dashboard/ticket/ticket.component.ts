@@ -41,6 +41,8 @@ import { DomSanitizer } from '@angular/platform-browser';
     minDate: Date;
     maxDate: Date;
 
+    validator: boolean = false;
+
     constructor(
       public route: ActivatedRoute, 
       public modalService: NgbModal,
@@ -59,6 +61,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 
     ngOnInit(): void {
+      this.checkValidation();
       this.currentUser = this.authService.getCurrentUser();
       const ticketID = this.route.snapshot.paramMap.get('id');
       this.init(ticketID);
@@ -188,6 +191,10 @@ import { DomSanitizer } from '@angular/platform-browser';
       })
     }
 
+    checkValidation(){
+      this.validator = this.authService.isLoggedIn();
+      console.log(this.validator);
+    }
 
     ////////////////////////////FUTURE GLOBAL FUNCTIONS////////////////////////////////////////////////////////
     timeFormat = 'HH:mm';
