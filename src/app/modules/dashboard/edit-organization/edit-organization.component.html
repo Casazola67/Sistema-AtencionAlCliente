@@ -113,7 +113,21 @@
                 <div>
                     <button mat-raised-button class="btn btn-secondary mr-1 mb-1" style="background-color: #c72c41;color:white;" (click)="modal.close()">No, volver</button>
                     <span style="display:inline-block; width: 10px;"></span>
-                    <button mat-raised-button class="btn btn-secondary mr-1 mb-1"  (click)="updateOrg()">Si, actualizar</button>
+                    <button mat-raised-button class="btn btn-secondary mr-1 mb-1"  (click)="updateOrg();modal.close();openModal(CloseConfirmacion) ">Si, actualizar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #CloseConfirmacion let-modal>
+    <div class="modal-body">
+        <div class="card-body p-4 p-sm-5">
+            <h2>Los datos de tu organización fueron actualizados correctamente</h2>
+            <hr class="mb-3">   
+            <div class="mb-3">
+                <div>
+                    <button mat-raised-button class="btn btn-secondary mr-1 mb-1" style="background-color: #c72c41;color:white;" (click)="modal.close()">Cerrar</button>
                 </div>
             </div>
         </div>

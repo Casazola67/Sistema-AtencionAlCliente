@@ -65,17 +65,15 @@ export class EditProfileComponent implements OnInit {
 
     //////////////////////////// BASE64 ////////////////////////////////////////////////////////
 
-    picked(event: any) {
-        
-      let fileList: FileList = event.target.files;
-      if (fileList.length > 0) {
-          const file: File = fileList[0];
-          this.handleInputChange(file); //turn into base64
-      }
-      else {
-        alert("No file selected");
-      }
-      
+  picked(event: any) {      
+    let fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      const file: File = fileList[0];
+      this.handleInputChange(file); //turn into base64
+    }
+    else {
+      alert("No file selected");
+    }  
   }
 
   handleInputChange(files: any) {
@@ -93,6 +91,7 @@ export class EditProfileComponent implements OnInit {
       let reader = e.target;
       var base64result = reader.result.substr(reader.result.indexOf(',') + 1);
       this.image = base64result;
+      this.user.photoURL = base64result;
       this.imageSource = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${base64result}`);
   }   
 
