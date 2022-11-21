@@ -62,7 +62,6 @@ export class EditOrganizationComponent implements OnInit {
         if (fileList.length > 0) {
             const file: File = fileList[0];
             this.handleInputChange(file); //turn into base64
-            console.log(this.organization.logoBase64);
         }
         else {
           alert("No file selected");

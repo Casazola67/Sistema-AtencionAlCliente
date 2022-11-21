@@ -77,7 +77,7 @@
                             <button mat-raised-button 
                             style="background-color: #801336; color: white;" 
                             [disabled]="!request.nameOrganization|| !request.nitBase64 || !request.seprecBase64"
-                            (click)="createRequest()"
+                            (click)="createRequest(); modal.close(); openModal(CloseSolicitud)"
                             >Enviar Solicitud</button>
                             <span style="display:inline-block; width: 10px;"></span>
                             <button mat-raised-button class="btn btn-secondary mr-1 mb-1" (click)="modal.close()">Cancelar</button>
@@ -90,3 +90,17 @@
         </div>
       </ng-template>
       
+
+      <ng-template #CloseSolicitud let-modal> 
+        <div class="modal-body">
+          <div class="card-body p-4 p-sm-5">
+            <h4>Tu solicitud fue registrada correctamente</h4>
+            <hr class="mb-3">    
+            <div class="mb-3">
+              <div>
+                <button mat-raised-button class="btn btn-secondary mr-1 mb-1" style="background-color: #c72c41;color:white;" (click)="modal.close()">Cerrar</button>
+              </div>
+            </div> 
+          </div>
+        </div>
+      </ng-template>
